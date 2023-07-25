@@ -6,4 +6,4 @@ pub struct Point{
     biome_id: Uuid,
     weather_id: Uuid,
     description: String,
-}
+}s
