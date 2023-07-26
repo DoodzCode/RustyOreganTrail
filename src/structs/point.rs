@@ -7,3 +7,14 @@ pub struct Point{
     weather_id: Uuid,
     description: String,
 }
+
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_Point() {
+
+    }
+}

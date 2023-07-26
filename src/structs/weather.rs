@@ -8,3 +8,13 @@ pub struct Weather {
     wind_speed: u8,
     biome_id: Uuid,
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_Weather() {
+
+    }
+}
