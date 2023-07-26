@@ -1,4 +1,4 @@
-use Uuid::new_V4;
+use uuid::Uuid;
 
 pub struct Zone {
     id: Uuid,
