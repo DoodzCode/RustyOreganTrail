@@ -1,10 +1,11 @@
 use uuid::Uuid;
 
-pub struct Point{
+#[derive(Debug)]
+pub struct Point<'a>{
     id: Uuid,
-    zone_id: Uuid,
-    biome_id: Uuid,
-    weather_id: Uuid,
+    zone_id: &'a Uuid,
+    biome_id: &'a Uuid,
+    weather_id: &'a Uuid,
     description: String,
 }
 
@@ -15,16 +16,22 @@ mod test {
 
     #[test]
     fn test_Point() {
-        let zone_id: Uuid::new_V4();
-        let biome_id: Uuid::new_V4();
-        let weather_id: Uuid::new_V4();
+        let zone_id = Uuid::new_v4();
+        let biome_id = Uuid::new_v4();
+        let weather_id = Uuid::new_v4();
+        
         let t_point = Point {
-            id: Uuid::new_V4(),
+            id: Uuid::new_v4(),
             zone_id: &zone_id,
             biome_id: &biome_id,
             weather_id: &weather_id,
-            description: String::new(),
+            description: String::from("Thing?"),
         };
-        assert_eq!(t_point.zone_id, zone_id);
+
+        assert_eq!(t_point.zone_id, &zone_id);
+        assert_eq!(t_point.biome_id, &biome_id);
+        assert_eq!(t_point.weather_id, &weather_id);
+
+        dbg!(t_point);
     }
 }
