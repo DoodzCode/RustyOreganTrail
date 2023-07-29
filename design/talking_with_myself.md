@@ -22,5 +22,10 @@ A Town is a Point that is off the trail. When at a crossroad in the trail, a car
 
 ## No More Biomes?
 
-TerrainTypes would actually belong to TrailPoints. Terrain in a given location does not change. Weather does.
+`Fuck Biomes`
+
+TerrainTypes would actually belong to TrailPoints.
+
+Terrain in a given location does not change. Weather does.
+
 TerrainType is static, while Weather is dynamic.
