@@ -7,6 +7,7 @@ trait HasName {
     fn get_name(&self) -> String;
 }
 
+#[derive(Debug)]
 enum Weather {
     Clear,
     Rainy,
@@ -25,6 +26,7 @@ impl HasDescription for Weather {
     }
 }
 
+#[derive(Debug)]
 pub enum Terrain {
     Plains,
     Desert,
@@ -47,6 +49,7 @@ impl HasDescription for Terrain {
     }
 }
 
+#[derive(Debug)]
 enum Region {
     Missouri,
     Kansas,
@@ -67,7 +70,8 @@ impl HasName for Region {
     }
 }
 
-struct TrailPoint {
+#[derive(Debug)]
+pub struct TrailPoint {
     terrain: Terrain,
     weather: Weather,
     region: Region,
@@ -79,17 +83,17 @@ impl TrailPoint {
     }
 }
 
-fn _generate_trail() -> Vec<TrailPoint> {
+pub fn _generate_trail() -> Vec<TrailPoint> {
     let mut trail: Vec<TrailPoint> = Vec::new();
     let mut counter = 0;
     loop {
-        if counter < 5 {
+        if counter < 3 {
             trail.push(TrailPoint{ terrain: Terrain::Plains, weather: Weather::Clear, region: Region::Missouri });
         }
-        else if 5 < counter && counter < 10 {
+        else if 2 < counter && counter < 5 {
             trail.push(TrailPoint{ terrain: Terrain::Hills, weather: Weather::Cloudy, region: Region::Missouri });
         }
-        else if 10 < counter && counter < 15 {
+        else if 4 < counter && counter < 7 {
             trail.push(TrailPoint{ terrain: Terrain::Plains, weather: Weather::Rainy, region: Region::Kansas });
         }
 
@@ -101,12 +105,12 @@ fn _generate_trail() -> Vec<TrailPoint> {
     }
 }
 
-fn look(location: &TrailPoint) {
+pub fn look(location: &TrailPoint) {
     println!("\nYou scan your surroundings:");
     println!("{}\n", location.get_description());
 }
 
-fn where_am_i(location: &TrailPoint) {
+pub fn where_am_i(location: &TrailPoint) {
     println!("According to the map, you are in {}", location.region.get_name())
 }
 
@@ -118,16 +122,10 @@ fn where_am_i(location: &TrailPoint) {
     
     #[test]
     fn test_terrain() {
-        // let t_terrain = Terrain::Hills;
-        // let desc_frag = t_terrain.get_description();
-
-        // let t_weather = Weather::Rainy;
-        // let desc_frag_1 = t_weather.get_description();
 
         let t_trail: Vec<TrailPoint> = _generate_trail();
         let t_trail = _generate_trail();
         let mut t_iter = t_trail.into_iter();
-        // let iter_next_thing = t_iter.next();
         let current_location = t_iter.next().unwrap();
 
         look( &current_location );
