@@ -63,9 +63,19 @@ impl TempRating for Temp {
 }
 
 #[cfg(test)]
-mod test {
+mod test_weather {
     use super::*;
 
     #[test]
-    fn test_Weather() {}
+    fn test_temp() {
+        let t_temp = Temp::Freezing;
+
+        assert_eq!(t_temp.get_cold_rating(), 100);
+        assert_eq!(t_temp.get_heat_rating(), 0);
+
+        println!("cold rating: {}", t_temp.get_cold_rating());
+        println!("heat rating: {}", t_temp.get_heat_rating());
+    }
+
+    
 }
