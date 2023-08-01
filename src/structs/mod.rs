@@ -1,5 +1,11 @@
 pub mod biome;
-pub mod zone;
-pub mod weather;
-pub mod town;
+pub mod caravan;
+pub mod clothing;
+pub mod material;
 pub mod point;
+pub mod region;
+pub mod terrain;
+pub mod town;
+pub mod trailpoint;
+pub mod traits;
+pub mod weather;
