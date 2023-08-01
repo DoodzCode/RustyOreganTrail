@@ -31,3 +31,19 @@ impl TempResistance for Material {
         }
     }
 }
+
+#[cfg(test)]
+mod test_material {
+    use super::*;
+
+    #[test]
+    fn test_resistance() {
+        let material: Material = Material::Fur;
+
+        assert_eq!(material.get_cold_resistance(), 10);
+        assert_eq!(material.get_heat_resistance(), 0);
+
+        println!("cold resistance: {}", material.get_cold_resistance());
+        println!("heat resistance: {}", material.get_heat_resistance());
+    }
+}

@@ -156,36 +156,11 @@ impl ResistanceBonus for WearLocation {
 
 
 #[cfg(test)]
-mod clothing_tests {
-    use super::*;
-
-    #[test]
-    fn test_temp() {
-        let t_temp = Temp::Freezing;
-
-        assert_eq!(t_temp.get_cold_rating(), 100);
-        assert_eq!(t_temp.get_heat_rating(), 0);
-
-        println!("cold rating: {}", t_temp.get_cold_rating());
-        println!("heat rating: {}", t_temp.get_heat_rating());
-    }
-
-    #[test]
-    fn test_resistance() {
-        let material: Material = Material::Fur;
-
-        assert_eq!(material.get_cold_resistance(), 10);
-        assert_eq!(material.get_heat_resistance(), 0);
-
-        println!("cold resistance: {}", material.get_cold_resistance());
-        println!("heat resistance: {}", material.get_heat_resistance());
-    }
-}
 mod test_clothing {
     use super::*;
 
     #[test]
-    fn test_clothing_resistance() {
+    fn test_clothing_cold_resistance() {
         let fur_hat: Clothing = Clothing {
             description: "Fur Hat".to_string(),
             wear_location: WearLocation::Head,
@@ -201,12 +176,39 @@ mod test_clothing {
         let wool_hat_resistance:u8 = wool_hat.get_cold_resistance();
         
         assert_ne!(fur_hat_resistance, wool_hat_resistance);
-        println!("fur hat resistance: {}", fur_hat_resistance);
-        println!("wool hat resistance: {}", wool_hat_resistance);
+        assert!( 
+            fur_hat_resistance > wool_hat_resistance,
+            "fur:{} wool:{}", 
+            fur_hat_resistance, wool_hat_resistance
+        );
     }
 
     #[test]
-    fn test_attire() {
+    fn test_clothing_heat_resistance() {
+        let fur_hat: Clothing = Clothing {
+            description: "Fur Hat".to_string(),
+            wear_location: WearLocation::Head,
+            material:Material::Fur
+        };
+
+        let wool_hat: Clothing  = Clothing {
+            description: "Wool Hat".to_string(),
+            wear_location: WearLocation::Head,
+            material: Material::Wool,
+        };
+        let fur_hat_resistance: u8 = fur_hat.get_heat_resistance();
+        let wool_hat_resistance:u8 = wool_hat.get_heat_resistance();
+        
+        assert_ne!(fur_hat_resistance, wool_hat_resistance);
+        assert!( 
+            fur_hat_resistance < wool_hat_resistance,
+            "fur:{} wool:{}", 
+            fur_hat_resistance, wool_hat_resistance
+        );
+    }
+
+    #[test]
+    fn test_attire_cold_resistance() {
         let fur_attire = Attire {
             head: Clothing::new("Fur Hat", WearLocation::Head, Material::Fur),
             chest: Clothing::new("Fur Shirt", WearLocation::Chest, Material::Fur),
@@ -240,9 +242,11 @@ mod test_clothing {
         dbg!(mixed_cold_resist);
 
 
-        assert!(fur_cold_resist > cotton_cold_resist, " fur = {} cotton = {}", fur_cold_resist, cotton_cold_resist);
-        // dbg!(fur_attire);
-        // dbg!(cotton_attire);
+        assert!(
+            fur_cold_resist > cotton_cold_resist,
+            " fur:{} cotton:{}",
+            fur_cold_resist, cotton_cold_resist
+        );
 
     }
 }
