@@ -4,3 +4,4 @@ pub mod weather;
 pub mod town;
 pub mod point;
 pub mod traits;
+pub mod clothing;
