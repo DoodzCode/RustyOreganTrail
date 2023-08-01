@@ -1,12 +1,65 @@
+use super::traits::{Description, TempRating};
 use uuid::Uuid;
 
-pub struct Weather<'a> {
-    id: Uuid,
-    temp: i8,
-    precipitation: u8,
-    humidity: u8,
-    wind_speed: u8,
-    biome_id: &'a Uuid,
+#[derive(Debug)]
+pub enum Weather {
+    Clear,
+    Rainy,
+    Cloudy,
+    Foggy,
+}
+
+impl Description for Weather {
+    fn get_description(&self) -> String {
+        match self {
+            Weather::Clear => "The skies are clear and you can see ".to_string(),
+            Weather::Rainy => {
+                "Rain falls heavily and obscures your vision, however you can make out ".to_string()
+            }
+            Weather::Cloudy => {
+                "The land is darkened by clouds, but in the distance you can see ".to_string()
+            }
+            Weather::Foggy => {
+                "Dense fog obscures your vision, you aren't able to see anything.".to_string()
+            }
+        }
+    }
+}
+
+pub enum Temp {
+    Freezing,    // 0
+    Cold,        // 0
+    Chilly,      // 0
+    Comfortable, // 0
+    Warm,        // 30
+    Hot,         // 60
+    Scorching,   // 100
+}
+
+impl TempRating for Temp {
+    fn get_cold_rating(&self) -> u8 {
+        match &self {
+            Temp::Freezing => 100,
+            Temp::Cold => 60,
+            Temp::Chilly => 30,
+            Temp::Comfortable => 0,
+            Temp::Warm => 0,
+            Temp::Hot => 0,
+            Temp::Scorching => 0,
+        }
+    }
+
+    fn get_heat_rating(&self) -> u8 {
+        match &self {
+            Temp::Freezing => 0,
+            Temp::Cold => 0,
+            Temp::Chilly => 0,
+            Temp::Comfortable => 0,
+            Temp::Warm => 30,
+            Temp::Hot => 60,
+            Temp::Scorching => 100,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -14,20 +67,5 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_Weather() {
-        let b_id: Uuid = Uuid::new_v4();
-        let t_weather: Weather<'_> = Weather {
-            id: Uuid::new_v4(),
-            temp: i8::from(45),
-            precipitation: u8::from(32),
-            humidity: u8::from(62),
-            wind_speed: u8::from(12),
-            biome_id: &b_id,
-        };
-        assert_eq!(t_weather.temp, 45);
-        assert_eq!(t_weather.precipitation, 32);
-        assert_eq!(t_weather.humidity, 62);
-        assert_eq!(t_weather.wind_speed, 12);
-        assert_eq!(t_weather.biome_id, &b_id);
-    }
+    fn test_Weather() {}
 }

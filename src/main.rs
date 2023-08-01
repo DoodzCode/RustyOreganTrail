@@ -1,43 +1,33 @@
+mod commands;
 mod structs;
+
+use commands::process_command;
 use std::io;
-use uuid::Uuid;
-use crate::structs::traits::{_generate_trail, look, where_am_i};
+use structs::trailpoint::{TrailPoint, _generate_trail};
 
 fn main() {
-    let trail = _generate_trail();
-    let mut titer = trail.iter();
-    
-    let mut count = 0;
+    let trail: Vec<TrailPoint> = _generate_trail();
+    let mut titer: std::slice::Iter<'_, TrailPoint> = trail.iter();
+
     loop {
         match titer.next() {
-            Some(location) => {
-                count += 1;
-                loop {
-                    println!("\n{}\n", count);
-                    println!("Enter Command:");
-                    let inp = get_input();
+            Some(location) => loop {
+                println!("Enter Command:");
+                let input: String = get_input();
 
-                    if inp == "look".to_string() {
-                        look(location);
-                    }
-                    else if inp == "where".to_string() {
-                        where_am_i(location);
-                    }
-                    else if inp == "travel".to_string() {
-                        break;
-                    }
-                    else if inp == "quit".to_string() {
-                        std::process::exit(0);
-                    }
+                if input == "travel".to_string() {
+                    println!("You travel onward down the trail...");
+                    break;
+                } else {
+                    process_command(input, &location);
                 }
+            },
+            None => {
+                println!("You have completed the trail!");
+                break;
             }
-            None => {break}
         }
     }
-}
-
-fn proccess_input() {
-
 }
 
 fn get_input() -> String {

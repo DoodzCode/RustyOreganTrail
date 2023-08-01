@@ -11,7 +11,7 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_Town() { 
+    fn test_Town() {
         let pop = 200;
         let t_town = Town {
             id: Uuid::new_v4(),
