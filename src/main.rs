@@ -34,12 +34,10 @@ fn main() {
             None => {break}
         }
     }
-
-
 }
 
 fn proccess_input() {
-    
+
 }
 
 fn get_input() -> String {
