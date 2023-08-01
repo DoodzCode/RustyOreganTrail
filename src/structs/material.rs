@@ -1,10 +1,12 @@
 use super::traits::TempResistance;
 
+#[derive(Debug)]
 pub enum Material {
     Fur,
     Wool,
     Leather,
     Cotton,
+    None,
 }
 
 impl TempResistance for Material {
@@ -14,6 +16,8 @@ impl TempResistance for Material {
             Material::Wool => 6,
             Material::Leather => 3,
             Material::Cotton => 0,
+            Material::None => 0,
+
         }
     }
 
@@ -23,6 +27,7 @@ impl TempResistance for Material {
             Material::Wool => 3,
             Material::Leather => 6,
             Material::Cotton => 10,
+            Material::None => 0,
         }
     }
 }
