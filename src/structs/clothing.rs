@@ -70,7 +70,7 @@ impl Attire {
         Hands: Nothing
      */
 
-    fn get_display(&self) -> String {
+    pub fn display(&self) -> String {
         
         let head: &String = &self.head.description;
         let chest: &String = &self.chest.description;

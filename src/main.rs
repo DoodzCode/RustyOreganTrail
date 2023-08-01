@@ -3,11 +3,15 @@ mod structs;
 
 use commands::process_command;
 use std::io;
-use structs::trailpoint::{TrailPoint, _generate_trail};
+use structs::{
+    caravan::Caravan,
+    trailpoint::{TrailPoint, _generate_trail}
+};
 
 fn main() {
     let trail: Vec<TrailPoint> = _generate_trail();
     let mut titer: std::slice::Iter<'_, TrailPoint> = trail.iter();
+    let caravan = Caravan::new();
 
     loop {
         match titer.next() {
@@ -19,7 +23,7 @@ fn main() {
                     println!("You travel onward down the trail...");
                     break;
                 } else {
-                    process_command(input, &location);
+                    process_command(input, &location, &caravan);
                 }
             },
             None => {

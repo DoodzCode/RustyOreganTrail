@@ -3,15 +3,17 @@ use super::{
     material::Material,
 };
 
+#[derive(Debug)]
 pub struct Caravan {
-    population: u8,
-    supplies: Supplies,
-    population_attire: Attire,
-    clothing_storage: Vec<Clothing>,
+    pub population: u8,
+    pub supplies: Supplies,
+    pub population_attire: Attire,
+    pub clothing_storage: Vec<Clothing>,
 }
 
 impl Caravan {
     pub fn new() -> Caravan {
+        //! Fix this hardcoded bullshit
         Caravan {
             population: 8, 
             supplies: Supplies::new("low"),
@@ -26,6 +28,10 @@ impl Caravan {
         }
     }
 
+    pub fn store_clothing(&mut self, clothing_piece: Clothing) {
+        self.clothing_storage.push(clothing_piece);
+    }
+    
     pub fn display(&self) -> String {
         format!(
             "
@@ -42,7 +48,7 @@ impl Caravan {
     }
 }
 
-
+#[derive(Debug)]
 pub struct Supplies {
     wood: u32,
     food: u32,
@@ -72,5 +78,32 @@ impl Supplies {
                 water: 30,
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod test_caravan {
+    use crate::structs::material;
+
+    use super::*;
+    
+
+    #[test]
+    fn test_new() {
+        let new_caravan = Caravan::new();
+
+        assert_eq!(new_caravan.population, 8);
+
+        // ! Look into how to test for same type
+        // assert_type_eq!(new_caravan.clothing_storage, Vec<Clothing>);
+    }
+
+    #[test]
+    fn test_store_clothing() {
+        let clothing: Clothing = Clothing::new("cotton shirt", WearLocation::Chest, Material::Cotton);
+        let mut caravan: Caravan = Caravan::new();
+        caravan.store_clothing(clothing);
+
+        assert_eq!(caravan.clothing_storage.len(), 1);
     }
 }
