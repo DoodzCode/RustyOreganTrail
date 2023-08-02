@@ -59,25 +59,32 @@ impl Supplies {
     pub fn new(amount: &str) -> Supplies {
         if amount == "low" {
             Supplies {
-                wood: 10,
-                food: 15,
+                wood: 40,
+                food: 20,
                 water: 20,
             }
         }
         else if amount == "medium" {
             Supplies {
-                wood: 15,
-                food: 20,
+                wood: 50,
+                food: 25,
                 water: 25,
             }
         }
         else {
             Supplies {
-                wood: 20,
-                food: 25,
+                wood: 60,
+                food: 30,
                 water: 30,
             }
         }
+    }
+
+    pub fn reduce_all_by(&mut self, amount: u8) {
+        let amount_u32 = amount as u32;
+        self.wood -= amount_u32;
+        self.food -= amount_u32;
+        self.water -= amount_u32;
     }
 }
 
