@@ -38,12 +38,13 @@ impl Caravan {
             +--------------------------------------+
                 Population {pop}          
             +--------------------------------------+
-                Supplies: 
+                Supplies: {supplies}
             +--------------------------------------+
                 Attire: 
             +--------------------------------------+
             ",
-            pop = self.population
+            pop = self.population,
+            supplies = self.supplies.display(),
         )
     }
 }
@@ -78,6 +79,17 @@ impl Supplies {
                 water: 30,
             }
         }
+    }
+
+    pub fn display(&self) -> String {
+        format!("
+            wood: {}
+            food: {}
+            water: {}",
+            self.wood,
+            self.food,
+            self.water,
+        )
     }
 
     pub fn reduce_all_by(&mut self, amount: u8) {

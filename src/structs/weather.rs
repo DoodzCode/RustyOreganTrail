@@ -76,6 +76,4 @@ mod test_weather {
         println!("cold rating: {}", t_temp.get_cold_rating());
         println!("heat rating: {}", t_temp.get_heat_rating());
     }
-
-    
 }
