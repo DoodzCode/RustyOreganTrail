@@ -17,7 +17,6 @@ impl TempResistance for Material {
             Material::Leather => 3,
             Material::Cotton => 0,
             Material::None => 0,
-
         }
     }
 

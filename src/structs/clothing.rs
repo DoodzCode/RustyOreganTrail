@@ -5,20 +5,20 @@ use super::{
 };
 
 /*
-    TOOLS
-        tools -> resource
-        obtain wood
-        obtain food
-        herbel medicine?
-        COOKING
-            pot
-            cast_iron_pan
-        HUNTING
-            rabbits
-            buffolo
-        FISHING
-            fish
- */
+   TOOLS
+       tools -> resource
+       obtain wood
+       obtain food
+       herbel medicine?
+       COOKING
+           pot
+           cast_iron_pan
+       HUNTING
+           rabbits
+           buffolo
+       FISHING
+           fish
+*/
 
 #[derive(Debug)]
 pub struct Attire {
@@ -26,11 +26,11 @@ pub struct Attire {
     pub chest: Clothing,
     pub legs: Clothing,
     pub feet: Clothing,
-    pub hands: Clothing, 
+    pub hands: Clothing,
 }
 
 impl Attire {
-    fn calc_cold_resistance(&self) ->u8 {
+    fn calc_cold_resistance(&self) -> u8 {
         let mut total = 0;
         total += self.head.get_cold_resistance();
         total += self.chest.get_cold_resistance();
@@ -62,16 +62,15 @@ impl Attire {
     }
     // Function that returns a formatted string showing pieces of clothing worn
     /*
-        Current Attire:
-        Head: Fur Hat,
-        Chest: Cotton Shirt,
-        Legs: Leather Pants,
-        Feet: Leather Shoes,
-        Hands: Nothing
-     */
+       Current Attire:
+       Head: Fur Hat,
+       Chest: Cotton Shirt,
+       Legs: Leather Pants,
+       Feet: Leather Shoes,
+       Hands: Nothing
+    */
 
     pub fn display(&self) -> String {
-        
         let head: &String = &self.head.description;
         let chest: &String = &self.chest.description;
         let legs: &String = &self.legs.description;
@@ -85,10 +84,13 @@ impl Attire {
             Feet: {pfeet}
             Hands: {phands}
             ",
-            phead = head, pchest = chest, plegs = legs, pfeet = feet, phands = hands
-            )
+            phead = head,
+            pchest = chest,
+            plegs = legs,
+            pfeet = feet,
+            phands = hands
+        )
     }
-    
 }
 
 #[derive(Debug)]
@@ -97,7 +99,6 @@ pub struct Clothing {
     wear_location: WearLocation,
     material: Material,
 }
-
 
 impl Clothing {
     fn get_heat_resistance(&self) -> u8 {
@@ -135,11 +136,9 @@ pub enum WearLocation {
     Any,
 }
 
-
 trait ResistanceBonus {
     fn get_resistance_bonus(&self) -> u8;
 }
-
 
 impl ResistanceBonus for WearLocation {
     fn get_resistance_bonus(&self) -> u8 {
@@ -154,7 +153,6 @@ impl ResistanceBonus for WearLocation {
     }
 }
 
-
 #[cfg(test)]
 mod test_clothing {
     use super::*;
@@ -164,22 +162,23 @@ mod test_clothing {
         let fur_hat: Clothing = Clothing {
             description: "Fur Hat".to_string(),
             wear_location: WearLocation::Head,
-            material:Material::Fur
+            material: Material::Fur,
         };
 
-        let wool_hat: Clothing  = Clothing {
+        let wool_hat: Clothing = Clothing {
             description: "Wool Hat".to_string(),
             wear_location: WearLocation::Head,
             material: Material::Wool,
         };
         let fur_hat_resistance: u8 = fur_hat.get_cold_resistance();
-        let wool_hat_resistance:u8 = wool_hat.get_cold_resistance();
-        
+        let wool_hat_resistance: u8 = wool_hat.get_cold_resistance();
+
         assert_ne!(fur_hat_resistance, wool_hat_resistance);
-        assert!( 
+        assert!(
             fur_hat_resistance > wool_hat_resistance,
-            "fur:{} wool:{}", 
-            fur_hat_resistance, wool_hat_resistance
+            "fur:{} wool:{}",
+            fur_hat_resistance,
+            wool_hat_resistance
         );
     }
 
@@ -188,22 +187,23 @@ mod test_clothing {
         let fur_hat: Clothing = Clothing {
             description: "Fur Hat".to_string(),
             wear_location: WearLocation::Head,
-            material:Material::Fur
+            material: Material::Fur,
         };
 
-        let wool_hat: Clothing  = Clothing {
+        let wool_hat: Clothing = Clothing {
             description: "Wool Hat".to_string(),
             wear_location: WearLocation::Head,
             material: Material::Wool,
         };
         let fur_hat_resistance: u8 = fur_hat.get_heat_resistance();
-        let wool_hat_resistance:u8 = wool_hat.get_heat_resistance();
-        
+        let wool_hat_resistance: u8 = wool_hat.get_heat_resistance();
+
         assert_ne!(fur_hat_resistance, wool_hat_resistance);
-        assert!( 
+        assert!(
             fur_hat_resistance < wool_hat_resistance,
-            "fur:{} wool:{}", 
-            fur_hat_resistance, wool_hat_resistance
+            "fur:{} wool:{}",
+            fur_hat_resistance,
+            wool_hat_resistance
         );
     }
 
@@ -232,7 +232,6 @@ mod test_clothing {
             hands: Clothing::new("Fur Gloves", WearLocation::Hands, Material::Cotton),
         };
 
-
         let fur_cold_resist: u8 = fur_attire.calc_cold_resistance();
         let cotton_cold_resist: u8 = cotton_attire.calc_cold_resistance();
         let mixed_cold_resist: u8 = mixed_attire.calc_cold_resistance();
@@ -241,12 +240,11 @@ mod test_clothing {
         dbg!(cotton_cold_resist);
         dbg!(mixed_cold_resist);
 
-
         assert!(
             fur_cold_resist > cotton_cold_resist,
             " fur:{} cotton:{}",
-            fur_cold_resist, cotton_cold_resist
+            fur_cold_resist,
+            cotton_cold_resist
         );
-
     }
 }
