@@ -114,7 +114,7 @@ fn find_command(text: String) -> Command {
         "checkstate" => Command::CheckState,
         "listcommands" => Command::ListCommands,
         "look" => Command::Look,
-        "map" => Command::LookMap,
+        "lookmap" => Command::LookMap,
         "quit" => Command::Quit,
         _ => Command::NotFound,
     }
