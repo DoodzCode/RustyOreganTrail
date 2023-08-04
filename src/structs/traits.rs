@@ -21,4 +21,8 @@ pub trait Item {
     fn get_description(&self) -> String;
     fn get_name(&self) -> String;
     fn get_type(&self) -> Self;
-} 
+}
+
+pub trait StatusEffectRemover {
+    
+}

@@ -1,7 +1,67 @@
-use crate::structs::{caravan::Caravan, trailpoint::TrailPoint, traits::Name};
+use crate::structs::{caravan::Caravan, traits::Item};
 
 // * import Item from structs::traits::Item and implement the trait onto any struct that represents a physical item
 // * since the trait's methods require a name, description, and quantity, the struct should also have those fields
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// An example of one way these items could be set up
+
+/// Represents ailments that are not physical: Sickness, Disease, Fever
+enum InternalAilment {
+    Cold,
+    Flue,
+    Pneumonia,
+    Dysentery,
+    Typhoid,
+}
+
+/// Represents physical injuries and ailments: Sprained Ankle, Concussion, 
+enum PhysicalAilment {
+    MinorInjury,
+    ModerateInjury,
+    SeverInjury,
+    Concussion,
+
+}
+
+
+
+enum ItemType {
+    Consumable,
+    Useable,
+    Tool,
+    Clothing,
+}
+
+pub struct Tonic {
+    name: String,
+    description: String,
+    item_type: ItemType,
+    quantity: u32,
+}
+
+
+
+impl Item for Tonic {
+    fn get_quantity(&self) -> u32 {
+        self.quantity
+    }
+
+    fn get_description(&self) -> String {
+        String::from(self.description)
+    }
+
+    fn get_name(&self) -> String {
+        String::from(self.name)
+    }
+
+    fn get_type(&self) -> Self {
+        self.get_type()
+    }
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 pub enum InjuryType {
     Cold,
@@ -15,21 +75,12 @@ pub enum OddInjury {
     Heatstroke,                             // LOL
 }
 
+
 pub enum Injury {
     MinorInjury,
     ModerateInjury,
     SeriousInjury,
 }
-
-/*
-Defining the types of bandages could make creating variations easier
-
-pub enum BandageType {
-    Gauze,
-    Suture,
-}
-
-*/
 
 pub struct Bandage {
     bandage: u32, // ? what does this field represent?
