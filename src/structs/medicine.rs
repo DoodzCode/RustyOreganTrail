@@ -1,5 +1,8 @@
 use crate::structs::{caravan::Caravan, trailpoint::TrailPoint, traits::Name};
 
+// * import Item from structs::traits::Item and implement the trait onto any struct that represents a physical item
+// * since the trait's methods require a name, description, and quantity, the struct should also have those fields
+
 pub enum InjuryType {
     Cold,
     Fever,
@@ -8,8 +11,8 @@ pub enum InjuryType {
 
 pub enum OddInjury {
     Dysentery,
-    Hypothermia,                        // ! RENAME ALL ENUMS
-    Heatstroke,
+    Hypothermia,                        // ! RENAME ALL ENUMS 
+    Heatstroke,                             // LOL
 }
 
 pub enum Injury {
@@ -18,9 +21,20 @@ pub enum Injury {
     SeriousInjury,
 }
 
+/*
+Defining the types of bandages could make creating variations easier
+
+pub enum BandageType {
+    Gauze,
+    Suture,
+}
+
+*/
+
 pub struct Bandage {
-    bandage: u32,
+    bandage: u32, // ? what does this field represent?
     name: String,
+    // type: BandageType
     target: Injury,
     action: String,
 }
@@ -57,11 +71,15 @@ impl Bandage {
         }
     }
 
+
+// you've got a few implementations of Bandage around here, considering putting all fuctions within
+// a single impl block.
 impl new for Bandage {
     fn new(&self) ->self {
         let bandage = Bandage{
-            bandage: u32::new(bandage),
+            bandage: u32::new(bandage), 
             name: String::from(name),
+            // name: String::from(name),
             target: Injury,
             action: String::from(action),
         };
