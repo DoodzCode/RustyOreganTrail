@@ -1,5 +1,6 @@
 mod commands;
 mod structs;
+mod items;
 
 use commands::{process_command, GameState};
 use std::io;

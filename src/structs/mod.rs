@@ -7,4 +7,4 @@ pub mod town;
 pub mod trailpoint;
 pub mod traits;
 pub mod weather;
-pub mod medicine;
+// pub mod medicine;
