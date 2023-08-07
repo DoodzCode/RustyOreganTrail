@@ -158,9 +158,9 @@ pub struct Medicine {
     applies_to: InjuryType,
 }
 
-impl Medicine {
-    fn address_ailment(&self)
-}
+// impl Medicine {
+//     fn address_ailment(&self)
+// }
 
 pub trait new {
     fn new(&self) -> self;
