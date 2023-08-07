@@ -126,3 +126,26 @@ mod test_caravan {
         assert_eq!(caravan.clothing_storage.len(), 1);
     }
 }
+
+struct StatusEffect {
+}
+
+struct PopulationStats {
+    number: u8,
+    status_effects: Vec<StatusEffect>,
+    hunger: u8,
+    dehydration: u8,
+    sick: u8,
+    injured: u8,
+    wood_production: i8,
+    food_production: i8,
+    water_production: i8,
+}
+
+trait Stat {
+    fn get_stat(&self) -> ();
+}
+
+// impl Stat for PopulationStats {
+//     fn get_stat(&self, target: &str)
+// }

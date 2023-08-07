@@ -16,13 +16,7 @@ pub trait TempResistance {
     fn get_heat_resistance(&self) -> u8;
 }
 
-pub trait Item {
-    fn get_quantity(&self) -> u32;
-    fn get_description(&self) -> String;
-    fn get_name(&self) -> String;
-    fn get_type(&self) -> Self;
-}
 
 pub trait StatusEffectRemover {
-    
+
 }

@@ -16,8 +16,6 @@ impl MedicalItem {
 }
 
 
-
-
 #[derive(Debug)]
 struct Capacity {
     pub max_capacity: u32,
@@ -52,16 +50,13 @@ impl WaterContainer {
     }
 }
 
-// impl Container for WaterContainer {
 
+
+// trait Container {
+//     fn get_max_capacity(&self) -> u32;
+//     fn get_used_capacity(&self) -> u32;
 // }
 
-trait Container {
-    fn get_max_capacity(&self) -> u32;
-    fn get_used_capacity(&self) -> u32;
-}
-
-// WaterContainer::Barrel
 
 #[derive(Debug)]
 struct ItemStats {
@@ -95,9 +90,9 @@ mod test_water_containers {
 
     #[test]
     fn test_stuff() {
-        let barrel = WaterContainer::new("barrel");
-        let waterskin = WaterContainer::new("waterskin");
-        let bandage = MedicalItem::new("bandage");
+        let barrel: WaterContainer = WaterContainer::new("barrel");
+        let waterskin: WaterContainer = WaterContainer::new("waterskin");
+        let bandage: MedicalItem = MedicalItem::new("bandage");
         // let bandage = Item::create(MedicalItem::Bandage);
         // let axe = Itemm::create(Tool::Axe);
 
@@ -105,6 +100,5 @@ mod test_water_containers {
         dbg!(waterskin);
         dbg!(bandage);
 
-        // let waterskin =
     }
 }
