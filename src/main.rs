@@ -29,12 +29,53 @@ fn print_opening_screen() {
 }
 
 
+#[derive(Debug)]
+pub struct GameData {
+    trust_level: u8,
+    population: u8,
+    injured_population: u8,
+    sick_population: u8,
+    morale: i8,
+    cold_resist: u8,
+    heat_resist: u8,
+    wagon_durability: u8,
+    food_stock: u8,
+    wood_stock: u8,
+    water_stock: u8,
+    axes_in_inventory: u8,
+    knives_in_inventory: u8,
+    hammers_in_inventory: u8,
+    location: u8,
+    miles_travelled: u32,
+    days_travelled: u8,
+}
+
+
 fn main() {
     let trail: Vec<TrailPoint> = _generate_trail();
     let mut game_state = GameState {
         days: 0,
         miles_travelled: 0,
         travel_hours_left_in_day: 12,
+    };
+    let gd = GameData {
+        trust_level: 50,
+        population: 20,
+        injured_population: 1,
+        sick_population: 2,
+        morale: 0,
+        cold_resist: 20,
+        heat_resist: 40,
+        wagon_durability: 100,
+        food_stock: 15,
+        wood_stock: 15,
+        water_stock: 15,
+        location: 1,
+        axes_in_inventory: 5,
+        knives_in_inventory: 5,
+        hammers_in_inventory: 2,
+        miles_travelled: 0,
+        days_travelled: 0,
     };
     let mut titer: std::slice::Iter<'_, TrailPoint> = trail.iter();
     let mut caravan = Caravan::new();

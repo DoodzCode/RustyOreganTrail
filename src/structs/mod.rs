@@ -7,6 +7,7 @@ pub mod town;
 pub mod trailpoint;
 pub mod traits;
 pub mod weather;
+pub mod morale;
 
-pub mod status_effects;
+// pub mod status_effects;
 // pub mod medicine;
