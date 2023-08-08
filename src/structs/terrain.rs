@@ -9,6 +9,20 @@ pub enum Terrain {
     Mountain,
 }
 
+impl Terrain {
+    /// Returns a tuple representing base resource values ( Food, Water, Wood )
+    /// 
+    pub fn base_resource_availability(&self) -> (u8, u8, u8) {
+        match self {
+            Terrain::Plains => (15, 10, 5),
+            Terrain::Desert => (5, 5, 5),
+            Terrain::Forest => (15, 15, 15),
+            Terrain::Hills => (10, 15, 5),
+            Terrain::Mountain => (5, 15, 10),
+        }
+    }
+}
+
 impl Description for Terrain {
     fn get_description(&self) -> String {
         match self {
