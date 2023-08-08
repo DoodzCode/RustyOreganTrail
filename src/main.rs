@@ -123,6 +123,7 @@ fn main() {
             ),
             "trust" => cmd_inspect_trust_level(&gd), // ? Is this weird?
             "travel" => current_location = t_iter.next().unwrap(),
+            "status" => cmd_status(&gd),
 
             "quit" => std::process::exit(0),
             _ => println!("Unknown Command"),
@@ -246,6 +247,46 @@ fn main() {
         gd.wagon.wood_stock -= gd.people.population;
 
         current_day += 1;
+    }
+
+    /// Reports data on population, progress, and supplies
+    fn cmd_status(gd: &GameData) {
+
+        println!(
+            r"
+             ___                                                  ___                               _   
+            (  _`\                                               |  _`\                            ( )_ 
+            | |_) ) _ __   _      __   _ __   __    ___   ___    | (_) )   __   _ _      _    _ __ | ,_)
+            | ,__/'( '__)/'_`\  /'_ `\( '__)/'__`\/',__)/',__)   | ,  /  /'__`\( '_`\  /'_`\ ( '__)| |  
+            | |    | |  ( (_) )( (_) || |  (  ___/\__, \\__, \   | |\ \ (  ___/| (_) )( (_) )| |   | |_ 
+            (_)    (_)  `\___/'`\__  |(_)  `\____)(____/(____/   (_) (_)`\____)| ,__/'`\___/'(_)   `\__)
+                               ( )_) |                                         | |                      
+                                \___/'                                         (_)                     
+            "
+        );
+        
+        println!("
+        Trust Level: {trust}            Date: {date}
+        Population: {pop}               Days Travelled: {days}
+        ",
+        trust=gd.trust_level, pop=gd.people.population, date="11/11/11".to_string(), days=gd.days_travelled
+        )
+    }
+
+
+    fn cmd_ascii() {
+        println!(
+            r"
+             ___                                                  ___                               _   
+            (  _`\                                               |  _`\                            ( )_ 
+            | |_) ) _ __   _      __   _ __   __    ___   ___    | (_) )   __   _ _      _    _ __ | ,_)
+            | ,__/'( '__)/'_`\  /'_ `\( '__)/'__`\/',__)/',__)   | ,  /  /'__`\( '_`\  /'_`\ ( '__)| |  
+            | |    | |  ( (_) )( (_) || |  (  ___/\__, \\__, \   | |\ \ (  ___/| (_) )( (_) )| |   | |_ 
+            (_)    (_)  `\___/'`\__  |(_)  `\____)(____/(____/   (_) (_)`\____)| ,__/'`\___/'(_)   `\__)
+                               ( )_) |                                         | |                      
+                                \___/'                                         (_)                     
+            "
+        )
     }
 }
 
