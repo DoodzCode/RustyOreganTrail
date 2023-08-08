@@ -4,7 +4,13 @@ mod structs;
 
 // use commands::{process_command, GameState};
 use std::io;
-use structs::trailpoint::{TrailPoint, _generate_tiny_trail};
+use structs::{
+    trailpoint::{TrailPoint, _generate_tiny_trail, Coords},
+    terrain::Terrain,
+    
+
+};
+use colored::Colorize;
 // use structs::{
 //     caravan::Caravan,
 //     trailpoint::{TrailPoint, _generate_trail},
@@ -45,7 +51,7 @@ pub struct GameData {
     knives_in_inventory: u8,
     hammers_in_inventory: u8,
 
-    location: u8,
+    location: (u8, u8),
     miles_travelled: u32,
     days_travelled: u8,
 }
@@ -98,13 +104,15 @@ fn main() {
         axes_in_inventory: 5,
         knives_in_inventory: 5,
         hammers_in_inventory: 2,
-        location: 1,
+        location: (10, 10),
         miles_travelled: 0,
         days_travelled: 0,
     };
 
+    let map: Vec<Vec<Terrain>> = _generate_map(100, 100);
+
     print_opening_screen();
-    let trail = _generate_tiny_trail();
+    let trail: Vec<TrailPoint> = _generate_tiny_trail();
     let mut t_iter: std::slice::Iter<'_, TrailPoint> = trail.iter();
     let mut current_location = t_iter.next().unwrap();
 
@@ -124,6 +132,7 @@ fn main() {
             "trust" => cmd_inspect_trust_level(&gd), // ? Is this weird?
             "travel" => current_location = t_iter.next().unwrap(),
             "status" => cmd_status(&gd),
+            "map" => print_map(&current_location.coords, &map),
 
             "quit" => std::process::exit(0),
             _ => println!("Unknown Command"),
@@ -290,68 +299,8 @@ fn main() {
     }
 }
 
-// fn main() {
-//     let trail: Vec<TrailPoint> = _generate_trail();
-//     let mut game_state = GameState {
-//         days: 0,
-//         miles_travelled: 0,
-//         travel_hours_left_in_day: 12,
-//     };
-//     let gd = GameData {
-//         trust_level: 50,
-//         population: 20,
-//         injured_population: 1,
-//         sick_population: 2,
-//         morale: 0,
-//         cold_resist: 20,
-//         heat_resist: 40,
-//         wagon_durability: 100,
-//         food_stock: 15,
-//         wood_stock: 15,
-//         water_stock: 15,
-//         location: 1,
-//         axes_in_inventory: 5,
-//         knives_in_inventory: 5,
-//         hammers_in_inventory: 2,
-//         miles_travelled: 0,
-//         days_travelled: 0,
-//     };
-//     let mut titer: std::slice::Iter<'_, TrailPoint> = trail.iter();
-//     let mut caravan = Caravan::new();
 
-//     print_opening_screen();
-//     let _ = get_input();
-//     // print_motd();
-//     // let _ = get_input();
 
-//     loop {
-//         match titer.next() {
-//             Some(location) => loop {
-//                 process_command("look".to_string(), &location, &mut caravan, &mut game_state);
-//                 println!("Enter Command:");
-//                 let input: String = get_input();
-
-//                 if input == "travel".to_string() {
-//                     if game_state.ok_to_travel() {
-//                         println!("You travel onward down the trail...");
-//                         game_state.reduce_day_hours(2);
-//                         game_state.increase_miles(2);
-//                         break;
-//                     } else {
-//                         // inform player there is not enough time to travel today
-//                         println!("The day is coming to an end, you do not have enough time to travel for the day");
-//                     }
-//                 } else {
-//                     process_command(input, &location, &mut caravan, &mut game_state);
-//                 }
-//             },
-//             None => {
-//                 println!("You have completed the trail!");
-//                 break;
-//             }
-//         }
-//     }
-// }
 
 fn get_input() -> String {
     let mut r_input: String = String::new();
@@ -360,17 +309,83 @@ fn get_input() -> String {
     String::from(input).to_lowercase()
 }
 
-// #[cfg(test)]
 
-/*
+const MAP: [[char; 17]; 26] = [
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+    ['#', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '^', '#', '#', '#', '#', '#', '~', '#', '#', '#', '#'],
+    ['^', '#', '^', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '5', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],
+    ['#', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],
+    ['#', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '^', '#', '#', '#', '#', '#', '~', '~', '#', '#', '#'],
+    ['^', '#', '^', '^', '^', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],   
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+    ['#', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '^', '#', '#', '#', '#', '#', '~', '#', '#', '#', '#'],
+    ['^', '#', '^', '^', '^', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['#', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['#', '^', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '^', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['^', '#', '^', '^', '^', '#', '#', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '^', '~', '^', '#', '#'],
+    ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '~', '#', '#'],   
+];
 
-    CAMPING
-    at end of day, player will need to camp for the night
-    code-wise that means
-        the travel hours will be replenished
-        the day number will increment
+fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {
+    let mut map: Vec<Vec<Terrain>> = Vec::new();
+
+    for y in 0..rows {
+        let mut row: Vec<Terrain> = Vec::new();
+        for x in 0..cols {
+            row.push(Terrain::Plains);
+        }
+        map.push(row);
+    }
+
+    map
+
+}
 
 
+fn print_map(coords: &Coords, map: &Vec<Vec<Terrain>>) {
+    let radius:u8 = 5;
+
+    let row_start: u8 = coords.0 - radius;
+    let col_start: u8 = coords.1 - radius;
+
+    let row_end: u8 = coords.0 + radius;
+    let col_end: u8 = coords.1 + radius;
+
+    let player_token = '*';
+
+    for y_coord in row_start..row_end + 1 {
+        for x_coord in col_start..col_end + 1 {
+            if x_coord == coords.1 && y_coord == coords.0 {
+                print!("{} ", player_token.to_string().red());
+            } else {
+                print_token(&map[usize::from(y_coord)][usize::from(x_coord)]);
+            }
+        }
+        print!("\n");
+    }
 
 
-*/
+    fn print_token(terrain: &Terrain) {
+        match terrain {
+            Terrain::Plains => print!("{} ", terrain.get_token().to_string().bright_yellow().dimmed()),
+            Terrain::Desert => print!("{} ", terrain.get_token().to_string().red()),
+            Terrain::Forest => print!("{} ", terrain.get_token().to_string().green()),
+            Terrain::Hills => print!("{} ", terrain.get_token().to_string().yellow()),
+            Terrain::Mountain => print!("{} ", terrain.get_token().to_string()),
+            _ => (),
+        }
+    }
+}

@@ -21,6 +21,16 @@ impl Terrain {
             Terrain::Mountain => (5, 15, 10),
         }
     }
+
+    pub fn get_token(&self) -> char {
+        match self {
+            Terrain::Plains => '#',
+            Terrain::Desert => '-',
+            Terrain::Forest => '!',
+            Terrain::Hills => ',',
+            Terrain::Mountain => '^',
+        }
+    }
 }
 
 impl Description for Terrain {
