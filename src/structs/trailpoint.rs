@@ -20,17 +20,32 @@ impl TrailPoint {
     }
 }
 
+pub fn _generate_tiny_trail() -> Vec<TrailPoint> {
+    let mut trail: Vec<TrailPoint> = Vec::new();
+    trail.push(TrailPoint {
+        terrain: Terrain::Plains,
+        weather: Weather::Clear,
+        region: Region::Missouri,
+    });
+    trail.push(TrailPoint {
+        terrain: Terrain::Desert,
+        weather: Weather::Rainy,
+        region: Region::Wyoming,
+    });
+    trail
+}
+
 pub fn _generate_trail() -> Vec<TrailPoint> {
     let mut trail: Vec<TrailPoint> = Vec::new();
     let mut counter = 0;
     loop {
-        if counter < 5 {
+        if counter < 1 {
             trail.push(TrailPoint {
                 terrain: Terrain::Plains,
                 weather: Weather::Clear,
                 region: Region::Missouri,
             });
-        } else if 4 < counter && counter < 10 {
+        } else if 1 < counter && counter < 3 {
             trail.push(TrailPoint {
                 terrain: Terrain::Hills,
                 weather: Weather::Cloudy,
@@ -58,7 +73,7 @@ pub fn _generate_trail() -> Vec<TrailPoint> {
 
         counter += 1;
 
-        if counter >= 24 {
+        if counter > 2 {
             return trail;
         }
     }
