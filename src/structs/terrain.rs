@@ -7,6 +7,7 @@ pub enum Terrain {
     Forest,
     Hills,
     Mountain,
+    Trail,
 }
 
 impl Terrain {
@@ -19,6 +20,7 @@ impl Terrain {
             Terrain::Forest => (15, 15, 15),
             Terrain::Hills => (10, 15, 5),
             Terrain::Mountain => (5, 15, 10),
+            _ => (0,0,0),
         }
     }
 
@@ -29,6 +31,7 @@ impl Terrain {
             Terrain::Forest => '!',
             Terrain::Hills => ',',
             Terrain::Mountain => '^',
+            Terrain::Trail => '-',
         }
     }
 }
@@ -41,6 +44,7 @@ impl Description for Terrain {
             Terrain::Forest => "lush, green with rivers".to_string(),
             Terrain::Hills => " a hilly landscape. Easy to cross, however due to the lack of visability, hills make it easy for outlaws and indians to ambush oncoming caravans".to_string(),
             Terrain::Mountain => "harsh and rocky, terrain that makes traveling across, difficult and dangerous.".to_string(),
+            _ => "invalid descriptor".to_string(),
         }
     }
 }

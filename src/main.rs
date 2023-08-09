@@ -104,17 +104,23 @@ fn main() {
         axes_in_inventory: 5,
         knives_in_inventory: 5,
         hammers_in_inventory: 2,
-        location: (10, 10),
+        location: (50, 50),
         miles_travelled: 0,
         days_travelled: 0,
     };
 
-    let map: Vec<Vec<Terrain>> = _generate_map(100, 100);
+    let mut map: Vec<Vec<Terrain>> = _generate_map(100, 100);
+    build_forest((55, 45), &mut map, 4);
+    build_forest((40, 55), &mut map, 3);
+    build_forest((35, 50), &mut map, 2);
+    add_trail_to_map(&mut map);
 
     print_opening_screen();
     let trail: Vec<TrailPoint> = _generate_tiny_trail();
     let mut t_iter: std::slice::Iter<'_, TrailPoint> = trail.iter();
     let mut current_location = t_iter.next().unwrap();
+
+    // dbg!(&map);
 
     loop {
         let player_input = get_input();
@@ -355,8 +361,71 @@ fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {
 }
 
 
+fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
+    let row_start: u8 = coords.0 - radius;
+    let col_start: u8 = coords.1 - radius;
+
+    let row_end: u8 = coords.0 + radius;
+    let col_end: u8 = coords.1 + radius;
+
+    let mut y: u8 = 0;
+    let mut x: u8 = 0;
+
+
+    /*
+        start at zero for rows and cols
+
+        start outer (y) loop
+            start inner (x) loop
+            check if the current y position is between the desired range of row_start and row_end
+                True =>check if the current x position is between the desired range of col_start and row _end
+                    True => change the terrain at current location to forest
+                    False => Continue
+                False => Continue
+            incrememnt current x position: x += 1
+            check if there are more tokens in this row
+                True => Repeat Inner Loop
+                False => Exit Inner Loop; increment current y position: y +=1; reset current x position: x = 0
+            Check if there are more rows
+                True => Repeat Outer Loop
+                False => Exit Outer Loop
+     */
+
+
+    for row in map.iter_mut() { 
+        for point in row.iter_mut() {
+            if y >= row_start && y <= row_end {
+                if x >= col_start && x <= col_end {
+                    *point = Terrain::Forest;
+                }
+            }
+            x += 1;
+        }
+        y +=1;
+        x = 0;
+    }
+}
+
+
+fn add_trail_to_map(map: &mut Vec<Vec<Terrain>>) {
+    let trail_col: u8 = 50;
+    let mut y: u8 = 0;
+    let mut x: u8 = 0;
+
+    for row in map.iter_mut() { 
+        for point in row.iter_mut() {
+                if x == trail_col {
+                    *point = Terrain::Trail;
+                }
+            x += 1;
+        }
+        y +=1;
+        x = 0;
+    }
+}
+
 fn print_map(coords: &Coords, map: &Vec<Vec<Terrain>>) {
-    let radius:u8 = 5;
+    let radius:u8 = 10;
 
     let row_start: u8 = coords.0 - radius;
     let col_start: u8 = coords.1 - radius;
@@ -385,6 +454,7 @@ fn print_map(coords: &Coords, map: &Vec<Vec<Terrain>>) {
             Terrain::Forest => print!("{} ", terrain.get_token().to_string().green()),
             Terrain::Hills => print!("{} ", terrain.get_token().to_string().yellow()),
             Terrain::Mountain => print!("{} ", terrain.get_token().to_string()),
+            Terrain::Trail => print!("{} ", terrain.get_token().to_string().purple()),
             _ => (),
         }
     }

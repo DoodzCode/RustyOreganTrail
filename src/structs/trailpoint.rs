@@ -30,13 +30,20 @@ pub fn _generate_tiny_trail() -> Vec<TrailPoint> {
         terrain: Terrain::Plains,
         weather: Weather::Clear,
         region: Region::Missouri,
-        coords: Coords(25, 25),
+        coords: Coords(50,50),
     });
     trail.push(TrailPoint {
         terrain: Terrain::Desert,
         weather: Weather::Rainy,
         region: Region::Missouri,
-        coords: Coords(24, 25),
+        coords: Coords(40, 50),
+
+    });
+    trail.push(TrailPoint {
+        terrain: Terrain::Desert,
+        weather: Weather::Rainy,
+        region: Region::Missouri,
+        coords: Coords(30, 50),
 
     });
     trail
