@@ -72,11 +72,14 @@ struct People {
     morale: i8,
 }
 
+// TODO rename this struct: we now have rates other than gathering
 #[derive(Debug)]
 struct GatherRates {
     food: u8,
     water: u8,
     wood: u8,
+    repair: u8,
+    morale: i8,
 }
 
 fn main() {
@@ -92,6 +95,8 @@ fn main() {
             food: 5,
             water: 5,
             wood: 5,
+            repair: 5,
+            morale: 5,
         },
         cold_resist: 20,
         heat_resist: 40,
@@ -197,13 +202,89 @@ fn main() {
         let mut g_food: u8 = 0;
         let mut g_water: u8 = 0;
         let mut g_wood: u8 = 0;
+        let mut repairers: u8 = 0;
 
+        
+
+        assign_gatherers(&mut workers_left, &mut g_food, &mut g_water, &mut g_wood);
+
+
+
+        // End of Evening: Everyone Sleeps
+        println!("The sun sinks below the horizon and you turn in for the night.");
+
+
+        // Start New Day
+        // Resource Consumption: Reduce Stocks
+        gd.wagon.food_stock -= gd.people.population;
+        gd.wagon.water_stock -= gd.people.population;
+        gd.wagon.wood_stock -= gd.people.population;
+
+        current_day += 1;
+    }
+
+
+    /// This function performs the actions of a single worker repairing the wagon based on the repair_rate
+    fn repair_wagon(wagon: &mut Wagon, gather_rates: &GatherRates) {
+        let MAX_DURABILITY: u8 = 100;
+        // let repair_tool = 10;
+        if wagon.durability < MAX_DURABILITY {
+            wagon.durability += gather_rates.repair;
+        }
+    }
+    
+    // ? this is allowed?
+    fn assign_repairers(workers_left: &mut u8, repairers: &mut u8) {
+        println!("How many workers shall repair the wagon?");
+        loop {
+            let player_input = get_input().parse::<u8>().unwrap();
+            if player_input <= *workers_left {
+                *repairers += player_input;
+                *workers_left -= player_input;
+                break;
+            } else {
+                println!("not enough workers to assign to task");
+            }
+        }
+    }
+
+    fn entertainment(people: &mut People, gather_rates: &GatherRates) {
+        println!("Choose how you shall entertain: Feast, Stories, Music/Dance");
+        let player_input = get_input();
+        loop {
+            if player_input == "Feast" {
+                // add loop?
+                people.morale += gather_rates.morale + 15;
+                break;
+            }
+    
+            else if player_input == "Music" {
+                people.morale += gather_rates.morale + 10;
+                break;
+            }
+    
+            else if player_input == "Stories" {
+                 // add loop?
+                 people.morale += gather_rates.morale + 5;
+                 break;
+            }
+    
+            else {
+                println!("Huh?");
+            }
+        }
+
+
+    }
+
+    fn assign_gatherers(workers_left: &mut u8, g_food: &mut u8, g_water: &mut u8, g_wood: &mut u8) {
+        println!("Assigning people to gathering tasks:");
         println!("How many workers shall be assigned to food?");
         loop {
             let player_input = get_input().parse::<u8>().unwrap();
-            if player_input <= workers_left {
-                g_food += player_input;
-                workers_left -= player_input;
+            if player_input <= *workers_left {
+                *g_food += player_input;
+                *workers_left -= player_input;
                 break;
             } else {
                 println!("not enough workers to assign to task");
@@ -213,9 +294,9 @@ fn main() {
         println!("How many many workers shall be assigned to water?");
         loop {
             let player_input = get_input().parse::<u8>().unwrap();
-            if player_input <= workers_left {
-                g_water += player_input;
-                workers_left -= player_input;
+            if player_input <= *workers_left {
+                *g_water += player_input;
+                *workers_left -= player_input;
                 break;
             } else {
                 println!("not enough workers to be assigned to water?");
@@ -225,43 +306,36 @@ fn main() {
         println!("How many many workers shall be assigned to wood?");
         loop {
             let player_input = get_input().parse::<u8>().unwrap();
-            if player_input <= workers_left {
-                g_wood += player_input;
-                workers_left -= player_input;
+            if player_input <= *workers_left {
+                *g_wood += player_input;
+                *workers_left -= player_input;
                 break;
             } else {
                 println!("not enough workers to be assigned to wood?");
             }
         
         }
+
         println!(
             "Food: {}, Water: {}, Wood: {}, Remaining: {}",
             g_food, g_water, g_wood, workers_left
         );
 
         println!("The people head off to their assigned tasks...");
+        
+        // return (g_food, g_water, g_wood, workers_left)
 
-        for _ in 0..g_food {
-            gather_food(&mut gd.wagon, &gd.gather_rates);
-        }
+        // for _ in 0..*g_food {
+        //     gather_food(&mut gd.wagon, &gd.gather_rates);
+        // }
 
-        for _ in 0..g_water {
-            gather_water(&mut gd.wagon, &gd.gather_rates);
-        }
+        // for _ in 0..*g_water {
+        //     gather_water(&mut gd.wagon, &gd.gather_rates);
+        // }
 
-        for _ in 0..g_wood {
-            gather_wood(&mut gd.wagon, &gd.gather_rates);
-        }
-
-
-        println!("The sun sinks below the horizon and you turn in for the night.");
-
-        // Resource Consumption: Reduce Stocks
-        gd.wagon.food_stock -= gd.people.population;
-        gd.wagon.water_stock -= gd.people.population;
-        gd.wagon.wood_stock -= gd.people.population;
-
-        current_day += 1;
+        // for _ in 0..*g_wood {
+        //     gather_wood(&mut gd.wagon, &gd.gather_rates);
+        // }
     }
 
     /// Reports data on population, progress, and supplies
