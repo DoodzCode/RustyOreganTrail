@@ -31,8 +31,16 @@ struct Morale {
 
 enum MoraleLevel {
     Min,
+    Low,
     Normal,
+    High,
     Max,
+}
+
+impl MoraleLevel {
+    fn get_value(&self) {
+        
+    }
 }
 
 ```
