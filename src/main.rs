@@ -3,6 +3,7 @@
 mod structs;
 
 // use commands::{process_command, GameState};
+use rand;
 use std::io;
 use structs::{
     trailpoint::{TrailPoint, _generate_tiny_trail, Coords},
@@ -361,22 +362,6 @@ fn main() {
         trust=gd.trust_level, pop=gd.people.population, date="11/11/11".to_string(), days=gd.days_travelled
         )
     }
-
-
-    fn cmd_ascii() {
-        println!(
-            r"
-             ___                                                  ___                               _   
-            (  _`\                                               |  _`\                            ( )_ 
-            | |_) ) _ __   _      __   _ __   __    ___   ___    | (_) )   __   _ _      _    _ __ | ,_)
-            | ,__/'( '__)/'_`\  /'_ `\( '__)/'__`\/',__)/',__)   | ,  /  /'__`\( '_`\  /'_`\ ( '__)| |  
-            | |    | |  ( (_) )( (_) || |  (  ___/\__, \\__, \   | |\ \ (  ___/| (_) )( (_) )| |   | |_ 
-            (_)    (_)  `\___/'`\__  |(_)  `\____)(____/(____/   (_) (_)`\____)| ,__/'`\___/'(_)   `\__)
-                               ( )_) |                                         | |                      
-                                \___/'                                         (_)                     
-            "
-        )
-    }
 }
 
 
@@ -434,7 +419,7 @@ fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {
 
 }
 
-
+/// Generates a square of forest around a single point
 fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     let row_start: u8 = coords.0 - radius;
     let col_start: u8 = coords.1 - radius;
@@ -445,32 +430,19 @@ fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     let mut y: u8 = 0;
     let mut x: u8 = 0;
 
-
-    /*
-        start at zero for rows and cols
-
-        start outer (y) loop
-            start inner (x) loop
-            check if the current y position is between the desired range of row_start and row_end
-                True =>check if the current x position is between the desired range of col_start and row _end
-                    True => change the terrain at current location to forest
-                    False => Continue
-                False => Continue
-            incrememnt current x position: x += 1
-            check if there are more tokens in this row
-                True => Repeat Inner Loop
-                False => Exit Inner Loop; increment current y position: y +=1; reset current x position: x = 0
-            Check if there are more rows
-                True => Repeat Outer Loop
-                False => Exit Outer Loop
-     */
-
-
     for row in map.iter_mut() { 
         for point in row.iter_mut() {
             if y >= row_start && y <= row_end {
                 if x >= col_start && x <= col_end {
-                    *point = Terrain::Forest;
+                    
+                    if y == row_start || y == row_end || x == col_start || x == col_end {
+                        if rand::random() {
+                            *point = Terrain::Forest;                        
+                        }
+                    }
+                    else {
+                        *point = Terrain::Forest;                        
+                    }
                 }
             }
             x += 1;
