@@ -2,6 +2,9 @@
 // mod items;
 mod structs;
 use colored::Colorize;
+
+// use commands::{process_command, GameState};
+use rand;
 use std::io;
 use structs::{
     terrain::Terrain,
@@ -531,6 +534,7 @@ fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {
     map
 }
 
+/// Generates a square of forest around a single point
 fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     let row_start: u8 = coords.0 - radius;
     let col_start: u8 = coords.1 - radius;
@@ -561,10 +565,19 @@ fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     */
 
     for row in map.iter_mut() {
+    for row in map.iter_mut() { 
         for point in row.iter_mut() {
             if y >= row_start && y <= row_end {
                 if x >= col_start && x <= col_end {
-                    *point = Terrain::Forest;
+                    
+                    if y == row_start || y == row_end || x == col_start || x == col_end {
+                        if rand::random() {
+                            *point = Terrain::Forest;                        
+                        }
+                    }
+                    else {
+                        *point = Terrain::Forest;                        
+                    }
                 }
             }
             x += 1;
