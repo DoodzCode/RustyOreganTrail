@@ -11,19 +11,19 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "camp" => cmd_camp(game_data),
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
-        "look" => cmd_look(&game_data.current_location.unwrap()),
+        // "look" => cmd_look(&game_data.current_location.unwrap()),
         "peep" => cmd_population_report(&game_data.people),
-        "survey" => println!(
-            "{:?}",
-            game_data
-                .current_location.unwrap()
-                .terrain
-                .base_resource_availability()
-        ),
+        // "survey" => println!(
+        //     "{:?}",
+        //     game_data
+        //         .current_location.unwrap()
+        //         .terrain
+        //         .base_resource_availability()
+        // ),
         "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
-        "travel" => game_data.current_location = Some(game_data.trail_iterator.unwrap().next().unwrap()),
+        // "travel" => game_data.current_location = Some(game_data.trail_iterator.unwrap().next().unwrap()),
         "status" => cmd_status(&game_data),
-        "map" => print_map(&game_data.current_location.unwrap().coords, &game_data.map),
+        // "map" => print_map(&game_data.current_location.unwrap().coords, &game_data.map),
 
         "quit" => std::process::exit(0),
         _ => println!("Unknown Command"),
@@ -339,26 +339,26 @@ pub fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     let mut y: u8 = 0;
     let mut x: u8 = 0;
 
-    for row in map.iter_mut() {
-        for row in map.iter_mut() {
-            for point in row.iter_mut() {
-                if y >= row_start && y <= row_end {
-                    if x >= col_start && x <= col_end {
-                        if y == row_start || y == row_end || x == col_start || x == col_end {
-                            if rand::random() {
-                                *point = Terrain::Forest;
-                            }
-                        } else {
-                            *point = Terrain::Forest;
-                        }
-                    }
-                }
-                x += 1;
-            }
-            y += 1;
-            x = 0;
-        }
-    }
+    // for row in map.iter_mut() {
+    //     for row in map.iter_mut() {
+    //         for point in row.iter_mut() {
+    //             if y >= row_start && y <= row_end {
+    //                 if x >= col_start && x <= col_end {
+    //                     if y == row_start || y == row_end || x == col_start || x == col_end {
+    //                         if rand::random() {
+    //                             *point = Terrain::Forest;
+    //                         }
+    //                     } else {
+    //                         *point = Terrain::Forest;
+    //                     }
+    //                 }
+    //             }
+    //             x += 1;
+    //         }
+    //         y += 1;
+    //         x = 0;
+    //     }
+    // }
 }
 
 pub fn add_trail_to_map(map: &mut Vec<Vec<Terrain>>) {

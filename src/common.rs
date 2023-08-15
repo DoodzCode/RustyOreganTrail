@@ -17,7 +17,7 @@ pub struct GameData {
     pub gather_rates: GatherRates,
 
     pub trail: Vec<TrailPoint>,
-    pub trail_iterator: Option<std::vec::IntoIter<TrailPoint>>, // TODO Make this field private
+    // pub trail_iterator: Option<std::vec::IntoIter<TrailPoint>>, // TODO Make this field private
     pub current_location: Option<TrailPoint>,
     pub map: Vec<Vec<Terrain>>,
     
@@ -77,7 +77,7 @@ impl GameData {
         };
 
         gd.mod_map();
-        gd.build_trail_iterator();
+        // gd.build_trail_iterator();
         gd
     }
 
@@ -88,21 +88,21 @@ impl GameData {
         add_trail_to_map(&mut self.map);
     }
 
-    fn build_trail_iterator(&mut self) {
-        self.trail_iterator = Some(self.trail.into_iter());
-        self.current_location = Some(self.trail_iterator.unwrap().next().unwrap())
-        // TODO unwrap circumvents error catching
-    }
+    // fn build_trail_iterator(&mut self) {
+    //     self.trail_iterator = Some(self.trail.into_iter());
+    //     self.current_location = Some(self.trail_iterator.unwrap().next().unwrap())
+    //     // TODO unwrap circumvents error catching
+    // }
 
-    pub fn get_next_location(&mut self) {
-        let t_iter: std::vec::IntoIter<&TrailPoint>;
-        match &mut self.trail_iterator {
-            Some(t_iter) => {
-                self.current_location = Some(t_iter.next().unwrap());
-            },  
-            None => ()
-        }
-    }
+    // pub fn get_next_location(&mut self) {
+    //     let t_iter: std::vec::IntoIter<&TrailPoint>;
+    //     match &mut self.trail_iterator {
+    //         Some(t_iter) => {
+    //             self.current_location = Some(t_iter.next().unwrap());
+    //         },  
+    //         None => ()
+    //     }
+    // }
 }
 
 #[derive(Debug)]
