@@ -9,6 +9,17 @@ pub enum Weather {
     Foggy,
 }
 
+impl Weather {
+    fn weather_modifier(&self) -> i8 {
+        match self {
+            Weather::Clear => 0,
+            Weather::Rainy => 2,        // ! subject to change
+            Weather::Cloudy => 1,
+            Weather::Foggy => 2,
+        }
+    }
+}
+
 impl Description for Weather {
     fn get_description(&self) -> String {
         match self {
