@@ -10,7 +10,7 @@ pub enum Weather {
 }
 
 impl Weather {
-    fn weather_modifier(&self) -> i8 {
+    fn travel_cost_modifier(&self) -> i8 { 
         match self {
             Weather::Clear => 0,
             Weather::Rainy => 2,        // ! subject to change
@@ -86,5 +86,18 @@ mod test_weather {
 
         println!("cold rating: {}", t_temp.get_cold_rating());
         println!("heat rating: {}", t_temp.get_heat_rating());
+    }
+
+    #[test]
+    fn test_travel_cost_modifier() {
+        let t_clear: Weather = Weather::Clear;
+        let t_rainy: Weather = Weather::Rainy;
+        let t_cloudy: Weather = Weather::Cloudy;
+        let t_foggy: Weather = Weather::Foggy;
+
+        assert_eq!(t_clear.travel_cost_modifier(), 0);
+        assert_eq!(t_rainy.travel_cost_modifier(), 2);
+        assert_eq!(t_cloudy.travel_cost_modifier(), 1);
+        assert_eq!(t_foggy.travel_cost_modifier(), 2);
     }
 }
