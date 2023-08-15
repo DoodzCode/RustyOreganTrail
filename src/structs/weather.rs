@@ -95,8 +95,8 @@ mod test_weather {
         let t_cloudy: Weather = Weather::Cloudy;
         let t_foggy: Weather = Weather::Foggy;
 
-        assert_eq!(t_rainy.travel_cost_modifier(), 2);
         assert_eq!(t_clear.travel_cost_modifier(), 0);
+        assert_eq!(t_rainy.travel_cost_modifier(), 2);
         assert_eq!(t_cloudy.travel_cost_modifier(), 1);
         assert_eq!(t_foggy.travel_cost_modifier(), 2);
     }
