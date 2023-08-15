@@ -25,7 +25,7 @@ pub struct GameData {
     pub cold_resist: u8,
     pub heat_resist: u8,
     /// Represents the caravan population's trust in the player as a leader
-    pub trust_level: u8,
+    pub trust_level: u8,// ! [PATCH]  Deprecated
 
     pub axes_in_inventory: u8,
     pub knives_in_inventory: u8,
@@ -44,7 +44,7 @@ impl GameData {
         let mut gd = GameData {
             trail: _generate_tiny_trail(),
             map: _generate_map(100, 100),
-            trail_iterator: None,
+            // trail_iterator: None,
             current_location: None,
             people: People {
                 population: 20,
