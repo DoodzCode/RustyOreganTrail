@@ -34,6 +34,17 @@ impl Terrain {
             Terrain::Trail => '-',
         }
     }
+
+    pub fn base_travel_cost(&self) -> i8 {
+        match self {
+            Terrain::Plains => 1,
+            Terrain::Desert => 1,
+            Terrain::Forest => 2,
+            Terrain::Hills => 2,
+            Terrain::Mountain => 4,
+            Terrain::Trail => 0,
+        }
+    }
 }
 
 impl Description for Terrain {
