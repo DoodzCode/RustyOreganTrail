@@ -12,24 +12,30 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
         "look" => {
+            // TODO this should be a single function somewhere since we are using it multiple times
             print_map(&game_data.current_location().coords, &game_data.map);
             cmd_look(&game_data.trail[game_data.current_position]);
         },
         "peep" => cmd_population_report(&game_data.people),
-        // "survey" => println!(
-        //     "{:?}",
-        //     game_data
-        //         .current_location.unwrap()
-        //         .terrain
-        //         .base_resource_availability()
-        // ),
-        "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
-        "travel" => cmd_travel(
-            &mut game_data.current_position,
-            &game_data.trail,
-            &mut game_data.daylight_hours,
-            &mut game_data.miles_travelled,
+        "survey" => println!(
+            "{:?}",
+            game_data
+                .current_location()
+                .terrain
+                .base_resource_availability()
         ),
+        "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
+        "travel" => {
+            cmd_travel(
+                &mut game_data.current_position,
+                &game_data.trail,
+                &mut game_data.daylight_hours,
+                &mut game_data.miles_travelled,
+            );
+            print_map(&game_data.current_location().coords, &game_data.map);
+            cmd_look(&game_data.trail[game_data.current_position]);
+            
+        },
         "status" => cmd_status(&game_data),
         "map" => print_map(&game_data.current_location().coords, &game_data.map),
         "dbg" => println!("{:?}", game_data),
