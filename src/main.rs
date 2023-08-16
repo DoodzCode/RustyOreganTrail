@@ -14,7 +14,8 @@ use structs::{
 fn main() {
     opening_screen();
     let mut game_data = GameData::new_test_data();
-
+    
+    
     loop {
         let cmd = get_input();
         match_command(cmd, &mut game_data)

@@ -11,7 +11,10 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "camp" => cmd_camp(game_data),
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
-        // "look" => cmd_look(&game_data.current_location.unwrap()),
+        "look" => {
+            print_map(&game_data.current_location().coords, &game_data.map);
+            cmd_look(&game_data.trail[game_data.current_position]);
+        },
         "peep" => cmd_population_report(&game_data.people),
         // "survey" => println!(
         //     "{:?}",
@@ -21,12 +24,30 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         //         .base_resource_availability()
         // ),
         "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
-        // "travel" => game_data.current_location = Some(game_data.trail_iterator.unwrap().next().unwrap()),
+        "travel" => cmd_travel(
+            &mut game_data.current_position,
+            &game_data.trail,
+            &mut game_data.daylight_hours,
+            &mut game_data.miles_travelled,
+        ),
         "status" => cmd_status(&game_data),
-        // "map" => print_map(&game_data.current_location.unwrap().coords, &game_data.map),
-
+        "map" => print_map(&game_data.current_location().coords, &game_data.map),
+        "dbg" => println!("{:?}", game_data),
         "quit" => std::process::exit(0),
         _ => println!("Unknown Command"),
+    }
+
+    pub fn cmd_travel(
+        current_position: &mut usize,
+        trail: &Vec<TrailPoint>,
+        daylight_hours: &mut u8,
+        miles_travelled: &mut u32,
+    ) {
+        // get total travel cost and subtract daylight_hours here
+        let travel_cost: u8 = trail[*current_position].travel_cost();
+        *daylight_hours -= travel_cost;
+        *current_position += 1;
+        *miles_travelled += 1;
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
@@ -115,7 +136,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         // run start_new_day()
 
         // end_of_day()
-        if (entertainment_tonight == true) {
+        if entertainment_tonight == true {
             entertainment(&mut gd.people, &gd.gather_rates);
         } else {
             perform_tasks(&g_food, &g_water, &g_wood, &repairers, gd);
@@ -128,6 +149,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         gd.wagon.water_stock -= gd.people.population;
         gd.wagon.wood_stock -= gd.people.population;
         current_day += 1;
+        // TODO reset daylight_hours here
     }
 
     pub fn perform_tasks(
@@ -156,9 +178,9 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
 
     /// This function performs the actions of a single worker repairing the wagon based on the repair_rate
     pub fn repair_wagon(wagon: &mut Wagon, gather_rates: &GatherRates) {
-        let MAX_DURABILITY: u8 = 100;
+        let max_durabilirt: u8 = 100;
         // let repair_tool = 10;
-        if wagon.durability < MAX_DURABILITY {
+        if wagon.durability < max_durabilirt {
             wagon.durability += gather_rates.repair;
         }
     }
@@ -267,11 +289,14 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             "
     Trust Level: {trust}            Date: {date}
     Population: {pop}               Days Travelled: {days}
+    Miles Travelled: {miles}        Daylight Hours Remaining: {daylight}
     ",
             trust = gd.trust_level,
             pop = gd.people.population,
             date = "11/11/11".to_string(),
-            days = gd.days_travelled
+            days = gd.days_travelled,
+            miles = gd.miles_travelled,
+            daylight = gd.daylight_hours,
         )
     }
 
@@ -339,26 +364,24 @@ pub fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     let mut y: u8 = 0;
     let mut x: u8 = 0;
 
-    // for row in map.iter_mut() {
-    //     for row in map.iter_mut() {
-    //         for point in row.iter_mut() {
-    //             if y >= row_start && y <= row_end {
-    //                 if x >= col_start && x <= col_end {
-    //                     if y == row_start || y == row_end || x == col_start || x == col_end {
-    //                         if rand::random() {
-    //                             *point = Terrain::Forest;
-    //                         }
-    //                     } else {
-    //                         *point = Terrain::Forest;
-    //                     }
-    //                 }
-    //             }
-    //             x += 1;
-    //         }
-    //         y += 1;
-    //         x = 0;
-    //     }
-    // }
+    for row in map.iter_mut() {
+        for point in row.iter_mut() {
+            if y >= row_start && y <= row_end {
+                if x >= col_start && x <= col_end {
+                    if y == row_start || y == row_end || x == col_start || x == col_end {
+                        if rand::random() {
+                            *point = Terrain::Forest;
+                        }
+                    } else {
+                        *point = Terrain::Forest;
+                    }
+                }
+            }
+            x += 1;
+        }
+        y += 1;
+        x = 0;
+    }
 }
 
 pub fn add_trail_to_map(map: &mut Vec<Vec<Terrain>>) {
