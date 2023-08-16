@@ -18,6 +18,15 @@ impl Weather {
             Weather::Foggy => 2,
         }
     }
+
+    pub fn visibility(&self) -> u8 {
+        match self {
+            Weather::Clear => 10,
+            Weather::Rainy => 6,
+            Weather::Cloudy => 8,
+            Weather::Foggy => 3,
+        }
+    }
 }
 
 impl Description for Weather {

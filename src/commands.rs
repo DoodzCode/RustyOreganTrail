@@ -13,7 +13,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "inspect" => cmd_inspect(&game_data.wagon),
         "look" => {
             // TODO this should be a single function somewhere since we are using it multiple times
-            print_map(&game_data.current_location().coords, &game_data.map);
+            print_map(&game_data.current_location(), &game_data.map);
             cmd_look(&game_data.trail[game_data.current_position]);
         },
         "peep" => cmd_population_report(&game_data.people),
@@ -26,12 +26,12 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
                 &mut game_data.daylight_hours,
                 &mut game_data.miles_travelled,
             );
-            print_map(&game_data.current_location().coords, &game_data.map);
+            print_map(&game_data.current_location(), &game_data.map);
             cmd_look(&game_data.trail[game_data.current_position]);
             
         },
         "status" => cmd_status(&game_data),
-        "map" => print_map(&game_data.current_location().coords, &game_data.map),
+        "map" => print_map(&game_data.current_location(), &game_data.map),
         "dbg" => println!("{:?}", game_data),
         "quit" => cmd_quit(),
         "commands" => println!("
@@ -312,8 +312,9 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         )
     }
 
-    fn print_map(coords: &Coords, map: &Vec<Vec<Terrain>>) {
-        let radius: u8 = 10;
+    fn print_map(location: &TrailPoint, map: &Vec<Vec<Terrain>>) {
+        let coords: &Coords = &location.coords;
+        let radius: u8 = location.weather.visibility();
 
         let row_start: u8 = coords.0 - radius;
         let col_start: u8 = coords.1 - radius;
