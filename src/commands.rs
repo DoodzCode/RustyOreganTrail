@@ -17,13 +17,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             cmd_look(&game_data.trail[game_data.current_position]);
         },
         "peep" => cmd_population_report(&game_data.people),
-        "survey" => println!(
-            "{:?}",
-            game_data
-                .current_location()
-                .terrain
-                .base_resource_availability()
-        ),
+        "survey" => cmd_survey(&game_data.current_location()),
         "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
         "travel" => {
             cmd_travel(
@@ -39,8 +33,15 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "status" => cmd_status(&game_data),
         "map" => print_map(&game_data.current_location().coords, &game_data.map),
         "dbg" => println!("{:?}", game_data),
-        "quit" => std::process::exit(0),
-        _ => println!("Unknown Command"),
+        "quit" => cmd_quit(),
+        "commands" => println!("
+            camp    inspect    look    status   travel   quit
+        "),
+        _ => println!("Command not recognized. Use 'commnds' to see a list of valid commands."),
+    }
+
+    pub fn cmd_quit() {
+        std::process::exit(0);
     }
 
     pub fn cmd_travel(
@@ -51,9 +52,14 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
     ) {
         // get total travel cost and subtract daylight_hours here
         let travel_cost: u8 = trail[*current_position].travel_cost();
-        *daylight_hours -= travel_cost;
-        *current_position += 1;
-        *miles_travelled += 1;
+
+        if *daylight_hours >= travel_cost {
+            *daylight_hours -= travel_cost;
+            *current_position += 1;
+            *miles_travelled += 1;
+        } else {
+            println!("There is not enough daylight left for travelling, you should camp for the night.")
+        }
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
