@@ -136,7 +136,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         // run start_new_day()
 
         // end_of_day()
-        if (entertainment_tonight == true) {
+        if entertainment_tonight == true {
             entertainment(&mut gd.people, &gd.gather_rates);
         } else {
             perform_tasks(&g_food, &g_water, &g_wood, &repairers, gd);
@@ -178,9 +178,9 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
 
     /// This function performs the actions of a single worker repairing the wagon based on the repair_rate
     pub fn repair_wagon(wagon: &mut Wagon, gather_rates: &GatherRates) {
-        let MAX_DURABILITY: u8 = 100;
+        let max_durabilirt: u8 = 100;
         // let repair_tool = 10;
-        if wagon.durability < MAX_DURABILITY {
+        if wagon.durability < max_durabilirt {
             wagon.durability += gather_rates.repair;
         }
     }
