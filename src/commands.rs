@@ -12,29 +12,36 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
         "look" => {
-            print_map(&game_data.current_location().coords, &game_data.map);
+            // TODO this should be a single function somewhere since we are using it multiple times
+            print_map(&game_data.current_location(), &game_data.map);
             cmd_look(&game_data.trail[game_data.current_position]);
         },
         "peep" => cmd_population_report(&game_data.people),
-        // "survey" => println!(
-        //     "{:?}",
-        //     game_data
-        //         .current_location.unwrap()
-        //         .terrain
-        //         .base_resource_availability()
-        // ),
+        "survey" => cmd_survey(&game_data.current_location()),
         "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
-        "travel" => cmd_travel(
-            &mut game_data.current_position,
-            &game_data.trail,
-            &mut game_data.daylight_hours,
-            &mut game_data.miles_travelled,
-        ),
+        "travel" => {
+            cmd_travel(
+                &mut game_data.current_position,
+                &game_data.trail,
+                &mut game_data.daylight_hours,
+                &mut game_data.miles_travelled,
+            );
+            print_map(&game_data.current_location(), &game_data.map);
+            cmd_look(&game_data.trail[game_data.current_position]);
+            
+        },
         "status" => cmd_status(&game_data),
-        "map" => print_map(&game_data.current_location().coords, &game_data.map),
+        "map" => print_map(&game_data.current_location(), &game_data.map),
         "dbg" => println!("{:?}", game_data),
-        "quit" => std::process::exit(0),
-        _ => println!("Unknown Command"),
+        "quit" => cmd_quit(),
+        "commands" => println!("
+            camp    inspect    look    status   travel   quit
+        "),
+        _ => println!("Command not recognized. Use 'commnds' to see a list of valid commands."),
+    }
+
+    pub fn cmd_quit() {
+        std::process::exit(0);
     }
 
     pub fn cmd_travel(
@@ -45,9 +52,14 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
     ) {
         // get total travel cost and subtract daylight_hours here
         let travel_cost: u8 = trail[*current_position].travel_cost();
-        *daylight_hours -= travel_cost;
-        *current_position += 1;
-        *miles_travelled += 1;
+
+        if *daylight_hours >= travel_cost {
+            *daylight_hours -= travel_cost;
+            *current_position += 1;
+            *miles_travelled += 1;
+        } else {
+            println!("There is not enough daylight left for travelling, you should camp for the night.")
+        }
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
@@ -300,8 +312,9 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         )
     }
 
-    fn print_map(coords: &Coords, map: &Vec<Vec<Terrain>>) {
-        let radius: u8 = 10;
+    fn print_map(location: &TrailPoint, map: &Vec<Vec<Terrain>>) {
+        let coords: &Coords = &location.coords;
+        let radius: u8 = location.weather.visibility();
 
         let row_start: u8 = coords.0 - radius;
         let col_start: u8 = coords.1 - radius;
