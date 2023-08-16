@@ -27,7 +27,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             &mut game_data.daylight_hours,
         ),
         "status" => cmd_status(&game_data),
-        // "map" => print_map(&game_data.current_location.unwrap().coords, &game_data.map),
+        "map" => print_map(&game_data.current_location().coords, &game_data.map),
         "dbg" => println!("{:?}", game_data),
         "quit" => std::process::exit(0),
         _ => println!("Unknown Command"),

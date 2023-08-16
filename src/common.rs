@@ -94,6 +94,10 @@ impl GameData {
         add_trail_to_map(&mut self.map);
     }
 
+    pub fn current_location(&self) -> &TrailPoint {
+        &self.trail[self.current_position]
+    }
+
     // fn build_trail_iterator(&mut self) {
     //     self.trail_iterator = Some(self.trail.into_iter());
     //     self.current_location = Some(self.trail_iterator.unwrap().next().unwrap())
