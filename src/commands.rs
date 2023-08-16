@@ -33,12 +33,15 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         _ => println!("Unknown Command"),
     }
 
-    pub fn cmd_travel(current_position: &mut usize, trail: &Vec<TrailPoint>, daylight_hours: &mut u8) {
+    pub fn cmd_travel(
+        current_position: &mut usize,
+        trail: &Vec<TrailPoint>,
+        daylight_hours: &mut u8,
+    ) {
         // get total travel cost and subtract daylight_hours here
         let travel_cost: u8 = trail[*current_position].travel_cost();
         *daylight_hours -= travel_cost;
         *current_position += 1;
-
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
@@ -351,26 +354,24 @@ pub fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     let mut y: u8 = 0;
     let mut x: u8 = 0;
 
-    // for row in map.iter_mut() {
-    //     for row in map.iter_mut() {
-    //         for point in row.iter_mut() {
-    //             if y >= row_start && y <= row_end {
-    //                 if x >= col_start && x <= col_end {
-    //                     if y == row_start || y == row_end || x == col_start || x == col_end {
-    //                         if rand::random() {
-    //                             *point = Terrain::Forest;
-    //                         }
-    //                     } else {
-    //                         *point = Terrain::Forest;
-    //                     }
-    //                 }
-    //             }
-    //             x += 1;
-    //         }
-    //         y += 1;
-    //         x = 0;
-    //     }
-    // }
+    for row in map.iter_mut() {
+        for point in row.iter_mut() {
+            if y >= row_start && y <= row_end {
+                if x >= col_start && x <= col_end {
+                    if y == row_start || y == row_end || x == col_start || x == col_end {
+                        if rand::random() {
+                            *point = Terrain::Forest;
+                        }
+                    } else {
+                        *point = Terrain::Forest;
+                    }
+                }
+            }
+            x += 1;
+        }
+        y += 1;
+        x = 0;
+    }
 }
 
 pub fn add_trail_to_map(map: &mut Vec<Vec<Terrain>>) {
