@@ -22,6 +22,12 @@ impl TrailPoint {
             self.terrain.get_description()
         )
     }
+
+    pub fn travel_cost(&self) -> u8 {
+        let base_cost: u8 = self.terrain.base_travel_cost();
+        let modifier: u8 = self.weather.travel_cost_modifier();
+        base_cost + modifier
+    }
 }
 
 pub fn _generate_tiny_trail() -> Vec<TrailPoint> {

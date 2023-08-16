@@ -35,7 +35,7 @@ impl Terrain {
         }
     }
 
-    pub fn base_travel_cost(&self) -> i8 {
+    pub fn base_travel_cost(&self) -> u8 {
         match self {
             Terrain::Plains => 1,
             Terrain::Desert => 1,

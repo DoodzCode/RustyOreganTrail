@@ -10,7 +10,7 @@ pub enum Weather {
 }
 
 impl Weather {
-    fn travel_cost_modifier(&self) -> i8 { 
+    pub fn travel_cost_modifier(&self) -> u8 { 
         match self {
             Weather::Clear => 0,
             Weather::Rainy => 2,        // ! subject to change

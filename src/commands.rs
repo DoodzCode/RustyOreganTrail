@@ -11,7 +11,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "camp" => cmd_camp(game_data),
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
-        // "look" => cmd_look(&game_data.current_location.unwrap()),
+        "look" => cmd_look(&game_data.trail[game_data.current_position]),
         "peep" => cmd_population_report(&game_data.people),
         // "survey" => println!(
         //     "{:?}",
@@ -21,16 +21,24 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         //         .base_resource_availability()
         // ),
         "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
-        "travel" => cmd_travel(&mut game_data.current_position),
+        "travel" => cmd_travel(
+            &mut game_data.current_position,
+            &game_data.trail,
+            &mut game_data.daylight_hours,
+        ),
         "status" => cmd_status(&game_data),
         // "map" => print_map(&game_data.current_location.unwrap().coords, &game_data.map),
-
+        "dbg" => println!("{:?}", game_data),
         "quit" => std::process::exit(0),
         _ => println!("Unknown Command"),
     }
 
-    pub fn cmd_travel(current_position: &mut usize) {
+    pub fn cmd_travel(current_position: &mut usize, trail: &Vec<TrailPoint>, daylight_hours: &mut u8) {
+        // get total travel cost and subtract daylight_hours here
+        let travel_cost: u8 = trail[*current_position].travel_cost();
+        *daylight_hours -= travel_cost;
         *current_position += 1;
+
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
