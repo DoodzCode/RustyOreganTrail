@@ -36,6 +36,10 @@ pub struct GameData {
     pub miles_travelled: u32,
     /// How many game days the player has been playing
     pub days_travelled: u8,
+    /// How many hours are left in the current game day
+    pub daylight_hours: u8,
+    /// The current TrailPoint along the Trail
+    pub current_position: usize,
 }
 
 impl GameData {
@@ -74,6 +78,8 @@ impl GameData {
             // location: (50, 50),
             miles_travelled: 0,
             days_travelled: 0,
+            daylight_hours: 12,
+            current_position: 0,
         };
 
         gd.mod_map();

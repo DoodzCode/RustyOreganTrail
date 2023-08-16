@@ -21,12 +21,16 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         //         .base_resource_availability()
         // ),
         "trust" => cmd_inspect_trust_level(&game_data), // ? Is this weird?
-        // "travel" => game_data.current_location = Some(game_data.trail_iterator.unwrap().next().unwrap()),
+        "travel" => cmd_travel(&mut game_data.current_position),
         "status" => cmd_status(&game_data),
         // "map" => print_map(&game_data.current_location.unwrap().coords, &game_data.map),
 
         "quit" => std::process::exit(0),
         _ => println!("Unknown Command"),
+    }
+
+    pub fn cmd_travel(current_position: &mut usize) {
+        *current_position += 1;
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
