@@ -11,7 +11,10 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "camp" => cmd_camp(game_data),
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
-        "look" => cmd_look(&game_data.trail[game_data.current_position]),
+        "look" => {
+            print_map(&game_data.current_location().coords, &game_data.map);
+            cmd_look(&game_data.trail[game_data.current_position]);
+        },
         "peep" => cmd_population_report(&game_data.people),
         // "survey" => println!(
         //     "{:?}",
@@ -25,6 +28,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             &mut game_data.current_position,
             &game_data.trail,
             &mut game_data.daylight_hours,
+            &mut game_data.miles_travelled,
         ),
         "status" => cmd_status(&game_data),
         "map" => print_map(&game_data.current_location().coords, &game_data.map),
@@ -37,11 +41,13 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         current_position: &mut usize,
         trail: &Vec<TrailPoint>,
         daylight_hours: &mut u8,
+        miles_travelled: &mut u32,
     ) {
         // get total travel cost and subtract daylight_hours here
         let travel_cost: u8 = trail[*current_position].travel_cost();
         *daylight_hours -= travel_cost;
         *current_position += 1;
+        *miles_travelled += 1;
     }
 
     pub fn cmd_look(current_location: &TrailPoint) {
@@ -143,6 +149,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         gd.wagon.water_stock -= gd.people.population;
         gd.wagon.wood_stock -= gd.people.population;
         current_day += 1;
+        // TODO reset daylight_hours here
     }
 
     pub fn perform_tasks(
@@ -282,11 +289,14 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             "
     Trust Level: {trust}            Date: {date}
     Population: {pop}               Days Travelled: {days}
+    Miles Travelled: {miles}        Daylight Hours Remaining: {daylight}
     ",
             trust = gd.trust_level,
             pop = gd.people.population,
             date = "11/11/11".to_string(),
-            days = gd.days_travelled
+            days = gd.days_travelled,
+            miles = gd.miles_travelled,
+            daylight = gd.daylight_hours,
         )
     }
 
