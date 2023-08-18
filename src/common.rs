@@ -34,6 +34,8 @@ pub struct GameData {
     // location: (u8, u8), Deprecated: The current location is now tracked through the TrailPoints
     /// How many miles the caravan has travelled thus far
     pub miles_travelled: u32,
+    /// Number of miles travelled in current day
+    pub miles_today: u32,
     /// How many game days the player has been playing
     pub days_travelled: u8,
     /// How many hours are left in the current game day
@@ -77,6 +79,7 @@ impl GameData {
             hammers_in_inventory: 2,
             // location: (50, 50),
             miles_travelled: 0,
+            miles_today: 0,
             days_travelled: 0,
             daylight_hours: 12,
             current_position: 0,

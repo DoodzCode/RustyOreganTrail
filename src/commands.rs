@@ -36,6 +36,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
                 &game_data.trail,
                 &mut game_data.daylight_hours,
                 &mut game_data.miles_travelled,
+                &mut game_data.miles_today,
             );
             print_map(&game_data.current_location(), &game_data.map);
             cmd_look(&game_data.trail[game_data.current_position]);
@@ -60,6 +61,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         trail: &Vec<TrailPoint>,
         daylight_hours: &mut u8,
         miles_travelled: &mut u32,
+        miles_today: &mut u32,
     ) {
         // get total travel cost and subtract daylight_hours here
         let travel_cost: u8 = trail[*current_position].travel_cost();
@@ -68,6 +70,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             *daylight_hours -= travel_cost;
             *current_position += 1;
             *miles_travelled += 1;
+            *miles_today += 1;
         } else {
             println!("There is not enough daylight left for travelling, you should camp for the night.")
         }
@@ -172,7 +175,8 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         gd.wagon.water_stock -= gd.people.population;
         gd.wagon.wood_stock -= gd.people.population;
         current_day += 1;
-        // TODO reset daylight_hours here
+        gd.daylight_hours = 12;
+        gd.miles_today = 0;
     }
 
     pub fn perform_tasks(
@@ -307,7 +311,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
                             \___/'                                         (_)                     
         "
         );
-
+ 
         println!(
             "
     Trust Level: {trust}            Date: {date}
@@ -338,7 +342,7 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         for y_coord in row_start..row_end + 1 {
             for x_coord in col_start..col_end + 1 {
                 if x_coord == coords.1 && y_coord == coords.0 {
-                    print!("{} ", player_token.to_string().red());
+                    print!("{} ", player_token.to_string().red().blink());
                 } else {
                     print_token(&map[usize::from(y_coord)][usize::from(x_coord)]);
                 }
@@ -350,13 +354,13 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
             match terrain {
                 Terrain::Plains => print!(
                     "{} ",
-                    terrain.get_token().to_string().bright_yellow().dimmed()
+                    terrain.get_token().to_string().bright_yellow()
                 ),
-                Terrain::Desert => print!("{} ", terrain.get_token().to_string().red()),
-                Terrain::Forest => print!("{} ", terrain.get_token().to_string().green()),
-                Terrain::Hills => print!("{} ", terrain.get_token().to_string().yellow()),
-                Terrain::Mountain => print!("{} ", terrain.get_token().to_string()),
-                Terrain::Trail => print!("{} ", terrain.get_token().to_string().purple()),
+                Terrain::Desert => print!("{} ", terrain.get_token()),
+                Terrain::Forest => print!("{} ", terrain.get_token()),
+                Terrain::Hills => print!("{} ", terrain.get_token()),
+                Terrain::Mountain => print!("{} ", terrain.get_token()),
+                Terrain::Trail => print!("{} ", terrain.get_token()),
                 _ => (),
             }
         }
@@ -366,9 +370,9 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
 pub fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {
     let mut map: Vec<Vec<Terrain>> = Vec::new();
 
-    for y in 0..rows {
+    for _ in 0..rows {
         let mut row: Vec<Terrain> = Vec::new();
-        for x in 0..cols {
+        for _ in 0..cols {
             row.push(Terrain::Plains);
         }
         map.push(row);
@@ -449,4 +453,15 @@ $$ |  $$ |\$$$$$$  |$$$$$$$  |  \$$$$  |\$$$$$$$ |       $$$$$$  |$$ |      \$$$
 "
     );
     println!("Press Enter to Continue");
+    let _ = get_input();
+}
+
+pub fn player_prompt(game_data: &GameData) {
+    // time of day, miles travelled, morale level
+    println!("
+Morale: questionable
+Daylight Hourse Remaining: {daylight}   Miles Travelled Today: {miles}",
+        daylight = game_data.daylight_hours,
+        miles = game_data.miles_today,
+    )
 }
