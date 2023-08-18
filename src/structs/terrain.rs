@@ -1,4 +1,6 @@
 use super::traits::Description;
+use colored::Colorize;
+
 
 #[derive(Debug)]
 pub enum Terrain {
@@ -24,16 +26,22 @@ impl Terrain {
         }
     }
 
-    pub fn get_token(&self) -> char {
+
+    // TODO maybe upgrade the map to a Vec<String>?
+    pub fn get_token(&self) -> colored::ColoredString {
         match self {
-            Terrain::Plains => '#',
-            Terrain::Desert => '-',
-            Terrain::Forest => '!',
-            Terrain::Hills => ',',
-            Terrain::Mountain => '^',
-            Terrain::Trail => '-',
+            Terrain::Plains => '~'.to_string().yellow(),
+            Terrain::Desert => '-'.to_string().yellow(),
+            Terrain::Forest => '!'.to_string().bright_green(),
+            Terrain::Hills => ','.to_string().normal(),
+            Terrain::Mountain => '^'.to_string().white(),
+            Terrain::Trail => '-'.to_string().magenta(),
         }
     }
+
+    // pub fn token(&self) -> String {
+    //     match self
+    // } 
 
     pub fn base_travel_cost(&self) -> u8 {
         match self {

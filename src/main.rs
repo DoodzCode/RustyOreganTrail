@@ -4,7 +4,7 @@ mod commands;
 mod common;
 mod structs;
 
-use commands::{get_input, match_command, opening_screen};
+use commands::{get_input, match_command, opening_screen, player_prompt};
 use common::GameData;
 use structs::{
     terrain::Terrain,
@@ -17,6 +17,7 @@ fn main() {
     
     
     loop {
+        player_prompt(&game_data);
         let cmd = get_input();
         match_command(cmd, &mut game_data)
     }
