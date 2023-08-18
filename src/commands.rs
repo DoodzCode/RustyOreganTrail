@@ -171,9 +171,33 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
 
         // start_new_day()
         // Resource Consumption: Reduce Stocks
-        gd.wagon.food_stock -= gd.people.population;
-        gd.wagon.water_stock -= gd.people.population;
-        gd.wagon.wood_stock -= gd.people.population;
+        // Check if there is enough stock for population
+        if gd.people.population > gd.wagon.food_stock {
+            gd.wagon.food_stock = 0;
+            gd.people.hungry = true;
+            // TODO make this better
+            println!("There is not enough food for everyone, some people will go hungry.");
+        } else {
+            gd.wagon.food_stock -= gd.people.population;
+        }
+
+        if gd.people.population > gd.wagon.water_stock {
+            gd.wagon.water_stock = 0;
+            gd.people.thirsty = true;
+            println!("There is not enough water for everyone, some people will be thirsty.")
+        } else {
+            gd.wagon.water_stock -= gd.people.population;
+        }
+
+        if gd.people.population > gd.wagon.wood_stock {
+            gd.wagon.wood_stock = 0;
+            // TODO what happens when wood_stock aint got wood?
+            println!("Not enough wood for everyone. Something bad might happen...")
+        } else {
+            gd.wagon.wood_stock -= gd.people.population;
+        }
+
+
         current_day += 1;
         gd.daylight_hours = 12;
         gd.miles_today = 0;
