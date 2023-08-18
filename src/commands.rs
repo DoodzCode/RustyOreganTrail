@@ -6,11 +6,22 @@ use crate::structs::{
 
 use colored::Colorize;
 
+pub fn report_command(gd: &GameData) {
+    let end_of_trail: u32;
+    let total_miles: u32 = 2700;
+    end_of_trail = total_miles - gd.miles_travelled;
+    println!("miles travelled: {}, miles to end of trial: {}", gd.miles_travelled, end_of_trail);
+    println!("food Stock: {}, wood stock: {} water stock: {}", gd.wagon.food_stock, gd.wagon.water_stock, gd.wagon.water_stock);
+    println!("current population: {}", gd.people.population);
+}
+
 pub fn match_command(cmd: String, game_data: &mut GameData) {
+
     match cmd.as_str() {
         "camp" => cmd_camp(game_data),
         "gather" => cmd_gather_rate(&game_data.gather_rates),
         "inspect" => cmd_inspect(&game_data.wagon),
+        "report" => report_command(&game_data),
         "look" => {
             // TODO this should be a single function somewhere since we are using it multiple times
             print_map(&game_data.current_location(), &game_data.map);
