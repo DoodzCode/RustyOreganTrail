@@ -56,7 +56,11 @@ impl GameData {
                 population: 20,
                 injured_population: 1,
                 sick_population: 2,
-                morale: 0,
+                morale: 75,
+                hungry: false,
+                starving: false,
+                thirsty: false,
+                dehydrated: false,
             },
             gather_rates: GatherRates {
                 food: 5,
@@ -132,6 +136,10 @@ pub struct People {
     pub injured_population: u8,
     pub sick_population: u8,
     pub morale: i8,
+    pub hungry: bool,
+    pub starving: bool,
+    pub thirsty: bool,
+    pub dehydrated: bool,
 }
 
 // TODO rename this struct: we now have rates other than gathering
