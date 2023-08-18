@@ -10,8 +10,8 @@ pub fn report_command(gd: &GameData) {
     let end_of_trail: u32;
     let total_miles: u32 = 2700;
     end_of_trail = total_miles - gd.miles_travelled;
-    println!("Miles Travelled: {}, miles to end of trial: {}", gd.miles_travelled, end_of_trail);
-    println!("Food Stock: {}, wood stock: {} water stock: {}", gd.wagon.food_stock, gd.wagon.water_stock, gd.wagon.water_stock);
+    println!("miles travelled: {}, miles to end of trial: {}", gd.miles_travelled, end_of_trail);
+    println!("food Stock: {}, wood stock: {} water stock: {}", gd.wagon.food_stock, gd.wagon.water_stock, gd.wagon.water_stock);
     println!("current population: {}", gd.people.population);
 }
 
