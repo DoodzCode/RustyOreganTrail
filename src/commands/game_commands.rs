@@ -1,6 +1,6 @@
 use colored::Colorize;
 
-use crate::structs::{
+use crate::structs::World::{
     trailpoint::{TrailPoint, Coords},
     terrain::Terrain,
 };

@@ -1,4 +1,4 @@
-use crate::structs::{
+use crate::structs::World::{
     trailpoint::{TrailPoint, _generate_tiny_trail},
     terrain::Terrain,
 };

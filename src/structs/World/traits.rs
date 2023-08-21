@@ -16,7 +16,3 @@ pub trait TempResistance {
     fn get_heat_resistance(&self) -> u8;
 }
 
-
-pub trait StatusEffectRemover {
-
-}

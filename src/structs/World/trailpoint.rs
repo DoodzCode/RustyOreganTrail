@@ -1,7 +1,9 @@
 use super::region::Region;
 use super::terrain::Terrain;
-use super::traits::Description;
 use super::weather::Weather;
+
+use super::traits::Description;
+
 
 #[derive(Debug)]
 pub struct TrailPoint {
