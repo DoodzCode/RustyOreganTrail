@@ -1,3 +1,5 @@
+pub mod Objects;
+pub mod People;
 pub mod World;
 
 // pub mod old_caravan;

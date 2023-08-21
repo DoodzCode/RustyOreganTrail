@@ -29,6 +29,8 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "peep" => player_commands::cmd_population_report(&game_data.people),
         "survey" => player_commands::cmd_survey(&game_data.current_location()),
         "trust" => player_commands::cmd_inspect_trust_level(&game_data), // ? Is this weird?
+
+        // TODO abstract into a function
         "travel" => {
             player_commands::cmd_travel(
                 &mut game_data.current_position,

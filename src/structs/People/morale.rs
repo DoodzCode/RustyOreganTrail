@@ -4,10 +4,14 @@ struct Morale {
 }
 
 impl Morale {
-    fn calculate_value(&self) -> i8 {}
+    fn calculate_value(&self) -> i8 {
+        self.level.get_value()
+    }
 
+    // TODO: not sure if this is still in use
     fn calculate_level(&self) -> MoraleLevel {
         let value = self.value;
+        MoraleLevel::Min
     }
 }
 
@@ -32,6 +36,36 @@ impl MoraleLevel {
             MoraleLevel::ReallyHigh => 50,
             MoraleLevel::Max => 100,
         }
+    }
+
+    // ! Does not impose any limits on the morale value itself
+    pub fn find_level(value: i8) -> MoraleLevel {
+        if value <= -90 {
+            return MoraleLevel::Min
+        }
+        else if value > -90 && value <= -60 {
+            return MoraleLevel::ReallyLow
+        }
+        else if value > -60 && value <= -30 {
+            return MoraleLevel::Low
+        }
+
+        else if value > -30 && value < 30 {
+            return MoraleLevel::Normal
+        }
+
+        else if value >= 30 && value < 60 {
+            return MoraleLevel::High
+        }
+        else if value >= 60 && value < 90 {
+            return MoraleLevel::ReallyHigh
+        }
+        else {
+        // else if value >= 90 {
+            return MoraleLevel::Max
+        }
+
+
     }
 }
 
@@ -88,6 +122,6 @@ mod test_morale {
             days_travelled: 0,
         };
 
-        println!("Current Morale: {}",)
+        println!("Current Morale: <IN PROGRESS>");
     }
 }
