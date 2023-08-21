@@ -17,6 +17,8 @@ fn main() {
     
     
     loop {
+        println!("{:?}", &game_data.people);
+
         player_prompt(&game_data);
         let cmd = get_input();
         match_command(cmd, &mut game_data)
