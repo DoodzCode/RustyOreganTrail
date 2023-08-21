@@ -1,5 +1,5 @@
 use super::traits::{Description, TempRating};
-use uuid::Uuid;
+// use uuid::Uuid;
 
 #[derive(Debug)]
 pub enum Weather {

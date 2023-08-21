@@ -4,16 +4,16 @@ mod commands;
 mod common;
 mod structs;
 
-use commands::{get_input, match_command, opening_screen, player_prompt};
+use commands::game_commands::{get_input, match_command, opening_screen, player_prompt};
 use common::GameData;
-use structs::{
-    terrain::Terrain,
-    trailpoint::{Coords, TrailPoint, _generate_tiny_trail},
-};
+// use structs::{
+//     // terrain::Terrain,
+//     trailpoint::{Coords, TrailPoint, _generate_tiny_trail},
+// };
 
 fn main() {
     opening_screen();
-    let mut game_data = GameData::new_test_data();
+    let mut game_data: GameData = GameData::new_test_data();
     
     
     loop {
