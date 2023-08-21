@@ -1,9 +1,10 @@
 use crate::structs::World::{
     trailpoint::{TrailPoint, _generate_tiny_trail},
-    terrain::Terrain,
+    terrain::Terrain
 };
+use crate::structs::Game::trailmap::TrailMap;
 
-use crate::commands::game_commands::{_generate_map, add_trail_to_map, build_forest};
+use crate::commands::game_commands::{add_trail_to_map, build_forest};
 
 
 // trait TestObject {
@@ -23,7 +24,7 @@ pub struct GameData {
     pub trail: Vec<TrailPoint>,
     // pub trail_iterator: Option<std::vec::IntoIter<TrailPoint>>, // TODO Make this field private
     pub current_location: Option<TrailPoint>,
-    pub map: Vec<Vec<Terrain>>,
+    pub map: TrailMap,
     
     // Needs refactoring
     pub cold_resist: u8,
@@ -53,7 +54,7 @@ impl GameData {
 
         let mut gd: GameData = GameData {
             trail: _generate_tiny_trail(),
-            map: _generate_map(100, 100),
+            map:TrailMap::create(100, 100),
             // trail_iterator: None,
             current_location: None,
             people: People::create_test_object(),

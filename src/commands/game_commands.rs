@@ -12,7 +12,7 @@ use crate::common::{
 use crate::commands::player_commands;
 
 
-pub fn println_to_player(content: String) {
+pub fn println_to_player(content: &String) {
     println!("{}", content);
 }
 
@@ -26,8 +26,9 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "inspect" => player_commands::cmd_inspect(&game_data.wagon),
         "report" => player_commands::cmd_report(&game_data),
         "look" => {
+            println_to_player(&game_data.map.to_string(&game_data.current_location()));
             // TODO this should be a single function somewhere since we are using it multiple times
-            print_map(&game_data.current_location(), &game_data.map);
+            // print_map(&game_data.current_location(), &game_data.map);
             player_commands::cmd_look(&game_data.trail[game_data.current_position]);
         }
         "peep" => player_commands::cmd_population_report(&game_data.people),
@@ -43,11 +44,11 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
                 &mut game_data.miles_travelled,
                 &mut game_data.miles_today,
             );
-            print_map(&game_data.current_location(), &game_data.map);
+            print_map(&game_data);
             player_commands::cmd_look(&game_data.trail[game_data.current_position]);
         }
         "status" => player_commands::cmd_status(&game_data),
-        "map" => print_map(&game_data.current_location(), &game_data.map),
+        "map" => print_map(&game_data),
         "dbg" => println!("{:?}", game_data),
         "quit" => player_commands::cmd_quit(),
         "commands" => println!(
@@ -64,55 +65,10 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
 
 
 
-fn print_map(location: &TrailPoint, map: &Vec<Vec<Terrain>>) {
-    // let coords: &Coords = &location.coords;
-    // let radius: u8 = location.weather.visibility();
-
-    // let row_start: u8 = coords.0 - radius;
-    // let col_start: u8 = coords.1 - radius;
-
-    // let row_end: u8 = coords.0 + radius;
-    // let col_end: u8 = coords.1 + radius;
-
-    // let player_token = '*';
-
-    // for y_coord in row_start..row_end + 1 {
-    //     for x_coord in col_start..col_end + 1 {
-    //         if x_coord == coords.1 && y_coord == coords.0 {
-    //             print!("{} ", player_token.to_string().red().blink());
-    //         } else {
-    //             print_token(&map[usize::from(y_coord)][usize::from(x_coord)]);
-    //         }
-    //     }
-    //     print!("\n");
-    // }
-
-    // fn print_token(terrain: &Terrain) {
-    //     match terrain {
-    //         Terrain::Plains => print!("{} ", terrain.get_token().to_string().bright_yellow()),
-    //         Terrain::Desert => print!("{} ", terrain.get_token()),
-    //         Terrain::Forest => print!("{} ", terrain.get_token()),
-    //         Terrain::Hills => print!("{} ", terrain.get_token()),
-    //         Terrain::Mountain => print!("{} ", terrain.get_token()),
-    //         Terrain::Trail => print!("{} ", terrain.get_token()),
-    //         _ => (),
-    //     }
-    // }
+fn print_map(game_data: &GameData ) {
+    println_to_player(&game_data.map.to_string(&game_data.current_location()));
 }
 
-pub fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {
-    let mut map: Vec<Vec<Terrain>> = Vec::new();
-
-    for _ in 0..rows {
-        let mut row: Vec<Terrain> = Vec::new();
-        for _ in 0..cols {
-            row.push(Terrain::Plains);
-        }
-        map.push(row);
-    }
-
-    map
-}
 
 /// Generates a square of forest around a single point
 pub fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
