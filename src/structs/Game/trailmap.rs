@@ -100,4 +100,22 @@ impl TrailMap {
             x = 0;
         }
     }
+
+
+    pub fn add_trail(&mut self) {
+        let trail_col: u8 = 50;
+        let mut y: u8 = 0;
+        let mut x: u8 = 0;
+    
+        for row in self.terrain_map.iter_mut() {
+            for point in row.iter_mut() {
+                if x == trail_col {
+                    *point = Terrain::Trail;
+                }
+                x += 1;
+            }
+            y += 1;
+            x = 0;
+        }
+    }
 }

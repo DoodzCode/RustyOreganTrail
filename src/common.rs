@@ -4,7 +4,7 @@ use crate::structs::World::{
 };
 use crate::structs::Game::trailmap::TrailMap;
 
-use crate::commands::game_commands::{add_trail_to_map, build_forest};
+use crate::commands::game_commands;
 
 
 // trait TestObject {
@@ -91,10 +91,10 @@ impl GameData {
     }
 
     fn mod_map(&mut self) {
-        build_forest((55, 45), &mut self.map, 4);
-        build_forest((40, 55), &mut self.map, 3);
-        build_forest((35, 50), &mut self.map, 2);
-        add_trail_to_map(&mut self.map);
+        self.map.build_forest((55, 45), 4);
+        self.map.build_forest((40, 55), 3);
+        self.map.build_forest((35, 50), 2);
+        self.map.add_trail();
     }
 
     pub fn current_location(&self) -> &TrailPoint {

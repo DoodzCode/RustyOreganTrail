@@ -101,23 +101,6 @@ pub fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
     }
 }
 
-pub fn add_trail_to_map(map: &mut Vec<Vec<Terrain>>) {
-    let trail_col: u8 = 50;
-    let mut y: u8 = 0;
-    let mut x: u8 = 0;
-
-    for row in map.iter_mut() {
-        for point in row.iter_mut() {
-            if x == trail_col {
-                *point = Terrain::Trail;
-            }
-            x += 1;
-        }
-        y += 1;
-        x = 0;
-    }
-}
-
 pub fn opening_screen() {
     println!(
         r"
