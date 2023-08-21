@@ -1,4 +1,4 @@
-use crate::common::GameData;
+use crate::structs::Game::game_data::GameData;
 use crate::commands::player_commands;
 
 

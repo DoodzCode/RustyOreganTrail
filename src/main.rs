@@ -5,7 +5,7 @@ mod common;
 mod structs;
 
 use commands::game_commands::{get_input, match_command, opening_screen, player_prompt};
-use common::GameData;
+use structs::Game::game_data::GameData;
 
 /// Function that maintains the game loop
 fn main() {
