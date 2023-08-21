@@ -1,14 +1,4 @@
-use colored::Colorize;
-
-use crate::structs::World::{
-    trailpoint::{TrailPoint, Coords},
-    terrain::Terrain,
-};
-
-use crate::common::{
-    GameData,
-};
-
+use crate::common::GameData;
 use crate::commands::player_commands;
 
 
