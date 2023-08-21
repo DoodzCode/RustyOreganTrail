@@ -6,6 +6,10 @@ use crate::structs::{
 use crate::commands::game_commands::{_generate_map, add_trail_to_map, build_forest};
 
 
+// trait TestObject {
+//     fn create_test_object() -> self;
+// }
+
 /// Holds all 'global' data for the game
 #[derive(Debug)]
 pub struct GameData {
@@ -47,21 +51,12 @@ pub struct GameData {
 impl GameData {
     pub fn new_test_data() -> GameData {
 
-        let mut gd = GameData {
+        let mut gd: GameData = GameData {
             trail: _generate_tiny_trail(),
             map: _generate_map(100, 100),
             // trail_iterator: None,
             current_location: None,
-            people: People {
-                population: 20,
-                injured_population: 1,
-                sick_population: 2,
-                morale: 75,
-                hungry: false,
-                starving: false,
-                thirsty: false,
-                dehydrated: false,
-            },
+            people: People::create_test_object(),
             gather_rates: GatherRates {
                 food: 5,
                 water: 5,
@@ -132,14 +127,44 @@ pub struct Wagon {
 
 #[derive(Debug)]
 pub struct People {
-    pub population: u8,
-    pub injured_population: u8,
-    pub sick_population: u8,
+    // pub population: u8,
     pub morale: i8,
-    pub hungry: bool,
-    pub starving: bool,
-    pub thirsty: bool,
-    pub dehydrated: bool,
+    pub people: Vec<Person>,
+}
+
+impl People {
+    pub fn create_test_object() -> People {
+        let mut test_object: People = People {
+            morale: 50,
+            people: Vec::new(),
+        };
+
+        let mut counter: i32 = 1;
+        loop {
+            let name = format!("person_{}", counter);
+            let new_person = Person::create_test_object(name);
+            test_object.add_person(new_person);
+            counter += 1;
+
+            if counter > 20 {
+                break;
+            }
+        }
+
+        test_object
+    }
+
+    pub fn add_person(&mut self, new_person: Person) {
+        self.people.push(new_person);
+    }
+
+    // TODO
+    // pub fn remove_person(){}
+
+    pub fn population(&self) -> u8 {
+        let population: u8 = self.people.len().try_into().unwrap();
+        population
+    }
 }
 
 // TODO rename this struct: we now have rates other than gathering
@@ -150,4 +175,23 @@ pub struct GatherRates {
     pub wood: u8,
     pub repair: u8,
     pub morale: i8,
+}
+
+#[derive(Debug)]
+struct Person {
+    name: String,
+    personality_type: String,
+    proffession: String,
+    status_flags: Vec<String>,
+}
+
+impl Person {
+    fn create_test_object(name: String) -> Person {
+        Person {
+            name: String::from(name),
+            personality_type: String::from("None"),
+            proffession: String::from("carpenter"),
+            status_flags: Vec::new(),
+        }    
+    }
 }

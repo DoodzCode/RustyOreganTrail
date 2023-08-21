@@ -57,7 +57,7 @@ pub fn cmd_gather_rate(gather_rates: &GatherRates) {
 pub fn cmd_camp(gd: &mut GameData) {
     println!("You tell the caravan to start breaking down and make camp...");
 
-    let mut workers_left = gd.people.population;
+    let mut workers_left = gd.people.population();
     let mut current_day = gd.days_travelled;
     let mut g_food: u8 = 0;
     let mut g_water: u8 = 0;
@@ -104,32 +104,35 @@ pub fn cmd_camp(gd: &mut GameData) {
     }
     println!("The sun sinks below the horizon and you turn in for the night.");
 
+
+    let population = gd.people.population();
+
     // start_new_day()
     // Resource Consumption: Reduce Stocks
     // Check if there is enough stock for population
-    if gd.people.population > gd.wagon.food_stock {
+    if population > gd.wagon.food_stock {
         gd.wagon.food_stock = 0;
-        gd.people.hungry = true;
+        // gd.people.hungry = true; // TODO
         // TODO make this better
         println!("There is not enough food for everyone, some people will go hungry.");
     } else {
-        gd.wagon.food_stock -= gd.people.population;
+        gd.wagon.food_stock -= population;
     }
 
-    if gd.people.population > gd.wagon.water_stock {
+    if population > gd.wagon.water_stock {
         gd.wagon.water_stock = 0;
-        gd.people.thirsty = true;
+        // gd.people.thirsty = true; // TODO 
         println!("There is not enough water for everyone, some people will be thirsty.")
     } else {
-        gd.wagon.water_stock -= gd.people.population;
+        gd.wagon.water_stock -= population;
     }
 
-    if gd.people.population > gd.wagon.wood_stock {
+    if population > gd.wagon.wood_stock {
         gd.wagon.wood_stock = 0;
         // TODO what happens when wood_stock aint got wood?
         println!("Not enough wood for everyone. Something bad might happen...")
     } else {
-        gd.wagon.wood_stock -= gd.people.population;
+        gd.wagon.wood_stock -= population;
     }
 
     current_day += 1;
@@ -159,7 +162,7 @@ Population: {pop}               Days Travelled: {days}
 Miles Travelled: {miles}        Daylight Hours Remaining: {daylight}
 ",
         trust = gd.trust_level,
-        pop = gd.people.population,
+        pop = gd.people.population(),
         date = "11/11/11".to_string(),
         days = gd.days_travelled,
         miles = gd.miles_travelled,
@@ -299,5 +302,5 @@ pub fn cmd_report(gd: &GameData) {
         "food Stock: {}, wood stock: {} water stock: {}",
         gd.wagon.food_stock, gd.wagon.water_stock, gd.wagon.water_stock
     );
-    println!("current population: {}", gd.people.population);
+    println!("current population: {}", gd.people.population());
 }
