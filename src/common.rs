@@ -3,7 +3,7 @@ use crate::structs::{
     terrain::Terrain,
 };
 
-use crate::commands::{_generate_map, add_trail_to_map, build_forest};
+use crate::commands::game_commands::{_generate_map, add_trail_to_map, build_forest};
 
 
 /// Holds all 'global' data for the game
