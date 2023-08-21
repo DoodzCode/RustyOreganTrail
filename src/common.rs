@@ -178,7 +178,7 @@ pub struct GatherRates {
 }
 
 #[derive(Debug)]
-struct Person {
+pub struct Person {
     name: String,
     personality_type: String,
     proffession: String,
@@ -186,7 +186,7 @@ struct Person {
 }
 
 impl Person {
-    fn create_test_object(name: String) -> Person {
+    pub fn create_test_object(name: String) -> Person {
         Person {
             name: String::from(name),
             personality_type: String::from("None"),
