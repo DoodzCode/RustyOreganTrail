@@ -23,9 +23,13 @@ pub fn cmd_travel(
         *current_position += 1;
         *miles_travelled += 1;
         *miles_today += 1;
+        // process_travel(travel_cost)
     } else {
         println!("There is not enough daylight left for travelling, you should camp for the night.")
     }
+
+    // fn process_travel( travel_cost: u8 ) {
+    // }
 }
 
 pub fn cmd_look(current_location: &TrailPoint) {
