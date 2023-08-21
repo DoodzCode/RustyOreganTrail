@@ -1,3 +1,4 @@
+pub mod Game;
 pub mod Objects;
 pub mod People;
 pub mod World;

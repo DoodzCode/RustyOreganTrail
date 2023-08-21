@@ -12,6 +12,10 @@ use crate::common::{
 use crate::commands::player_commands;
 
 
+pub fn println_to_player(content: String) {
+    println!("{}", content);
+}
+
 /// Matches player input with an available command if any
 /// 
 /// takes the player's input as a String and the GameData object
@@ -61,39 +65,39 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
 
 
 fn print_map(location: &TrailPoint, map: &Vec<Vec<Terrain>>) {
-    let coords: &Coords = &location.coords;
-    let radius: u8 = location.weather.visibility();
+    // let coords: &Coords = &location.coords;
+    // let radius: u8 = location.weather.visibility();
 
-    let row_start: u8 = coords.0 - radius;
-    let col_start: u8 = coords.1 - radius;
+    // let row_start: u8 = coords.0 - radius;
+    // let col_start: u8 = coords.1 - radius;
 
-    let row_end: u8 = coords.0 + radius;
-    let col_end: u8 = coords.1 + radius;
+    // let row_end: u8 = coords.0 + radius;
+    // let col_end: u8 = coords.1 + radius;
 
-    let player_token = '*';
+    // let player_token = '*';
 
-    for y_coord in row_start..row_end + 1 {
-        for x_coord in col_start..col_end + 1 {
-            if x_coord == coords.1 && y_coord == coords.0 {
-                print!("{} ", player_token.to_string().red().blink());
-            } else {
-                print_token(&map[usize::from(y_coord)][usize::from(x_coord)]);
-            }
-        }
-        print!("\n");
-    }
+    // for y_coord in row_start..row_end + 1 {
+    //     for x_coord in col_start..col_end + 1 {
+    //         if x_coord == coords.1 && y_coord == coords.0 {
+    //             print!("{} ", player_token.to_string().red().blink());
+    //         } else {
+    //             print_token(&map[usize::from(y_coord)][usize::from(x_coord)]);
+    //         }
+    //     }
+    //     print!("\n");
+    // }
 
-    fn print_token(terrain: &Terrain) {
-        match terrain {
-            Terrain::Plains => print!("{} ", terrain.get_token().to_string().bright_yellow()),
-            Terrain::Desert => print!("{} ", terrain.get_token()),
-            Terrain::Forest => print!("{} ", terrain.get_token()),
-            Terrain::Hills => print!("{} ", terrain.get_token()),
-            Terrain::Mountain => print!("{} ", terrain.get_token()),
-            Terrain::Trail => print!("{} ", terrain.get_token()),
-            _ => (),
-        }
-    }
+    // fn print_token(terrain: &Terrain) {
+    //     match terrain {
+    //         Terrain::Plains => print!("{} ", terrain.get_token().to_string().bright_yellow()),
+    //         Terrain::Desert => print!("{} ", terrain.get_token()),
+    //         Terrain::Forest => print!("{} ", terrain.get_token()),
+    //         Terrain::Hills => print!("{} ", terrain.get_token()),
+    //         Terrain::Mountain => print!("{} ", terrain.get_token()),
+    //         Terrain::Trail => print!("{} ", terrain.get_token()),
+    //         _ => (),
+    //     }
+    // }
 }
 
 pub fn _generate_map(rows: u8, cols: u8) -> Vec<Vec<Terrain>> {

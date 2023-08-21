@@ -3,6 +3,8 @@ use crate::structs::World::trailpoint::TrailPoint;
 use crate::commands::game_commands::get_input;
 use crate::common::{GameData, GatherRates, People, Wagon};
 
+
+
 pub fn cmd_quit() {
     std::process::exit(0);
 }
