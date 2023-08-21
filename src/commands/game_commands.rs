@@ -26,9 +26,8 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
         "inspect" => player_commands::cmd_inspect(&game_data.wagon),
         "report" => player_commands::cmd_report(&game_data),
         "look" => {
-            println_to_player(&game_data.map.to_string(&game_data.current_location()));
             // TODO this should be a single function somewhere since we are using it multiple times
-            // print_map(&game_data.current_location(), &game_data.map);
+            println_to_player(&game_data.map.to_string(&game_data.current_location()));
             player_commands::cmd_look(&game_data.trail[game_data.current_position]);
         }
         "peep" => player_commands::cmd_population_report(&game_data.people),
@@ -60,45 +59,8 @@ pub fn match_command(cmd: String, game_data: &mut GameData) {
     }
 }
 
-
-
-
-
-
 fn print_map(game_data: &GameData ) {
     println_to_player(&game_data.map.to_string(&game_data.current_location()));
-}
-
-
-/// Generates a square of forest around a single point
-pub fn build_forest(coords: (u8, u8), map: &mut Vec<Vec<Terrain>>, radius: u8) {
-    let row_start: u8 = coords.0 - radius;
-    let col_start: u8 = coords.1 - radius;
-
-    let row_end: u8 = coords.0 + radius;
-    let col_end: u8 = coords.1 + radius;
-
-    let mut y: u8 = 0;
-    let mut x: u8 = 0;
-
-    for row in map.iter_mut() {
-        for point in row.iter_mut() {
-            if y >= row_start && y <= row_end {
-                if x >= col_start && x <= col_end {
-                    if y == row_start || y == row_end || x == col_start || x == col_end {
-                        if rand::random() {
-                            *point = Terrain::Forest;
-                        }
-                    } else {
-                        *point = Terrain::Forest;
-                    }
-                }
-            }
-            x += 1;
-        }
-        y += 1;
-        x = 0;
-    }
 }
 
 pub fn opening_screen() {
