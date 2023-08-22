@@ -1,7 +1,11 @@
-use crate::structs::trailpoint::TrailPoint;
-
+use crate::structs::World::trailpoint::TrailPoint;
 use crate::commands::game_commands::get_input;
-use crate::common::{GameData, GatherRates, People, Wagon};
+use crate::structs::People::person::{People, GatherRates};
+use crate::structs::Objects::wagon::Wagon;
+use crate::structs::Game::game_data::GameData;
+
+
+
 
 pub fn cmd_quit() {
     std::process::exit(0);
@@ -22,9 +26,13 @@ pub fn cmd_travel(
         *current_position += 1;
         *miles_travelled += 1;
         *miles_today += 1;
+        // process_travel(travel_cost)
     } else {
         println!("There is not enough daylight left for travelling, you should camp for the night.")
     }
+
+    // fn process_travel( travel_cost: u8 ) {
+    // }
 }
 
 pub fn cmd_look(current_location: &TrailPoint) {
